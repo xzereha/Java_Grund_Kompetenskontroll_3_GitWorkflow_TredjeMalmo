@@ -23,6 +23,11 @@ public class EmailTest {
     }
 
     @Test
+    void isValid_invalidTopLevelDomainSeparator_returnsFalse() {
+        assertFalse(Email.isValid("hej@adress#se"));
+    }
+
+    @Test
     void isValid_emptyString_returnsFalse() {
         assertFalse(Email.isValid(""));
     }
@@ -60,7 +65,6 @@ public class EmailTest {
     @Test
     void isValid_whitespaceInEmail_returnsFalse() {
         assertFalse(Email.isValid("hej @adress.se"));
-
     }
 
     @Test

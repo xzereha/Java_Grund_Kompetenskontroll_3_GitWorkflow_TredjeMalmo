@@ -18,6 +18,10 @@ public class Email {
     }
 
     public static boolean isValid(String email) {
+        if (email == null || email.isEmpty()) {
+            return false;
+        }
+
         Pattern pattern = Pattern.compile("^[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+.[A-Za-z]{2,}$");
         Matcher matcher = pattern.matcher(email);
         return matcher.matches();

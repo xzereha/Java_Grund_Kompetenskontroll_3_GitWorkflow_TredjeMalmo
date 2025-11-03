@@ -1,0 +1,42 @@
+package com.example.views;
+
+import java.awt.Color;
+import java.awt.Dimension;
+import java.awt.BorderLayout;
+import javax.swing.*;
+
+import com.example.BookingRepository;
+
+public class BookingListView extends JPanel {
+    public BookingListView(BookingRepository bookingRepository) {
+        setLayout(new BorderLayout());
+        setBorder(BorderFactory.createLineBorder(Color.GRAY, 1));
+
+        JLabel title = new JLabel("Bokningar", JLabel.CENTER);
+        add(title, BorderLayout.NORTH);
+
+        JPanel listPanel = new JPanel();
+        listPanel.setLayout(new BoxLayout(listPanel, BoxLayout.Y_AXIS));
+        listPanel.setOpaque(false);
+        listPanel.add(Box.createRigidArea(new Dimension(0, 10)));
+        for (var booking : bookingRepository.getBookingList()) {
+            BookingView bookingView = new BookingView(booking);
+            listPanel.add(bookingView);
+            listPanel.add(Box.createRigidArea(new Dimension(0, 5)));
+        }
+
+        JScrollPane scrollPane = new JScrollPane(listPanel);
+        scrollPane.setBorder(null);
+        scrollPane.getVerticalScrollBar().setUnitIncrement(16);
+        add(scrollPane, BorderLayout.CENTER);
+        // Add button to add a new booking
+        JButton addButton = new JButton("Lägg till bokning");
+        addButton.addActionListener(e -> {
+            AddBookingView addBookingView = new AddBookingView();
+            addBookingView.setVisible(true);
+        });
+        JPanel buttonPanel = new JPanel();
+        buttonPanel.add(addButton);
+        add(buttonPanel, BorderLayout.SOUTH);
+    }
+}

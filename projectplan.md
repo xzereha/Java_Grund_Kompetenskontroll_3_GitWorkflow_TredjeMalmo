@@ -17,3 +17,22 @@
   - Avsluta bokning
     - Sätt pris
   - Skicka Mail
+
+
+## Dependencies
+- BokningsService
+  - BokningsRepository
+  - Prislista
+  - MailService
+- Sortering
+  - BokningsRepository
+- Init
+  - BokningsRepository
+- AvklaradService
+  - BokningsRepostory
+  - MailService
+  - (BokningsService)
+- Meny
+  - BokningsService
+  - Sortering
+  - AvklaradService 

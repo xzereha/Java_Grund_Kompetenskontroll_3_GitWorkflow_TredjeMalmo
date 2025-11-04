@@ -10,7 +10,7 @@
   - Visa Bokningar- Pontus, Tilda - bygger komponent i Test
   - Visa bokningsdetaljer- Pontus, Tilda - bygger komponent i Test
 - Meny
-- Sortering
+✅- Sortering | Mario & Vera
 - Init (skapa bokningar vid start)
 - MailService
 - AvklaradService

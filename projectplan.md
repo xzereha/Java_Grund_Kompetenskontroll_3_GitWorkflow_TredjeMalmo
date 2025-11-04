@@ -3,7 +3,7 @@
 - ✅ BokningsRepository
 - Prislista (Mimmi)
 - BokningsService 
-  - Skapa Bokning
+  - Skapa Bokning  - Skapa Bokning, Pontus, Tilda - bygger komponent i Test
     - Skicka mail
   - Redigera Bokning- Pontus, Tilda - bygger komponent i Test
   - Ta bort Bokning- Pontus, Tilda - bygger komponent i Test

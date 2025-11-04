@@ -18,11 +18,11 @@ public class InitService {
 
         bookingRepository.addBooking(new Booking.Inspection
                 (new Vehicle(new RegNr("ABC123"), "MERCEDES SMART", 2000), new Email("email@address.se"),
-                        LocalDate.of(2025,12,02),4567));
+                        LocalDate.of(2025,12,2),4567));
 
         bookingRepository.addBooking(new Booking.Repair
                 (new Vehicle(new RegNr("ABC123"), "TESLA", 2022), new Email("email@address.se"),
-                        LocalDate.of(2025,12,03),"Doorhandel"));
+                        LocalDate.of(2025,12,3),"Doorhandel"));
 
         bookingRepository.addBooking(new Booking.Service
                 (new Vehicle(new RegNr("ABC123"), "TOYOTA IQ", 2022), new Email("email@address.se"),
@@ -50,7 +50,7 @@ public class InitService {
 
         bookingRepository.addBooking(new Booking.Service
                 (new Vehicle(new RegNr("ABC123"), "VOLVO V60", 2022), new Email("email@address.se"),
-                        LocalDate.of(2025,06,26),6778));
+                        LocalDate.of(2025,6,26),6778));
 
         bookingRepository.addBooking(new Booking.Inspection
                 (new Vehicle(new RegNr("ABC123"), "NISSAN MICRA", 2022), new Email("email@address.se"),
@@ -58,11 +58,11 @@ public class InitService {
 
         bookingRepository.addBooking(new Booking.Repair
                 (new Vehicle(new RegNr("ABC123"), "MERCEDES", 2022), new Email("email@address.se"),
-                        LocalDate.of(2026,03,26),"carFarts"));
+                        LocalDate.of(2026,3,26),"carFarts"));
 
         bookingRepository.addBooking(new Booking.Service
                 (new Vehicle(new RegNr("ABC123"), "Model", 2022), new Email("email@address.se"),
-                        LocalDate.of(2026,06,26),9234));
+                        LocalDate.of(2026,6,26),9234));
 
         bookingRepository.addBooking(new Booking.Repair
                 (new Vehicle(new RegNr("ABC123"), "Model", 2022), new Email("email@address.se"),
@@ -70,6 +70,6 @@ public class InitService {
 
         bookingRepository.addBooking(new Booking.Inspection
                 (new Vehicle(new RegNr("ABC123"), "Model", 2022), new Email("email@address.se"),
-                        LocalDate.of(2026,05,03),9875));
+                        LocalDate.of(2026,5,3),9875));
     }
 }

@@ -1,7 +1,7 @@
 # Plan
 
-- BokningsRepository
-- Prislista
+- ✅ BokningsRepository
+- Prislista (Mimmi)
 - BokningsService 
   - Skapa Bokning
     - Skicka mail
@@ -11,9 +11,9 @@
   - Visa bokningsdetaljer- Pontus, Tilda - bygger komponent i Test
 - Meny
 - ✅ Sortering | Mario & Vera
-- Init (skapa bokningar vid start)
-- MailService
-- AvklaradService
+- ✅ Init (skapa bokningar vid start) (Mimmi)
+- ✅ MailService (Mimmi)
+- AvklaradService 
   - Avsluta bokning
     - Sätt pris
   - Skicka Mail

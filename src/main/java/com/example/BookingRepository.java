@@ -8,8 +8,8 @@ import java.util.List;
 public class BookingRepository {
     private final List<Booking> bookingList = new ArrayList<>();
 
-    public void addBooking(Booking booking) {
-        bookingList.add(booking);
+    public boolean addBooking(Booking booking) {
+        return bookingList.add(booking);
     }
 
     public boolean removeBooking(Booking booking) {

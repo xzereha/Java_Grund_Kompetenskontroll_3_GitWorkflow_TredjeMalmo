@@ -22,6 +22,7 @@ public class BookingView extends JPanel {
         this.booking = booking;
         setLayout(new BoxLayout(this, BoxLayout.X_AXIS));
         setBorder(BorderFactory.createLineBorder(Color.BLACK, 1));
+        setBorder(BorderFactory.createRaisedSoftBevelBorder());
         setBackground(new Color(245, 245, 245));
         setMaximumSize(new Dimension(PREFERRED_WIDTH, PREFERRED_HEIGHT));
         setPreferredSize(new Dimension(PREFERRED_WIDTH, PREFERRED_HEIGHT));

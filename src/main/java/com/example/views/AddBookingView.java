@@ -1,6 +1,8 @@
 package com.example.views;
 
+import java.awt.CardLayout;
 import java.awt.Dimension;
+import java.awt.GridLayout;
 
 import javax.swing.BorderFactory;
 import javax.swing.Box;
@@ -27,9 +29,19 @@ public class AddBookingView extends JDialog {
         setModal(true);
         setDefaultCloseOperation(DISPOSE_ON_CLOSE);
         JPanel panel = new JPanel();
+        // panel.setLayout(new CardLayout());
         panel.setLayout(new BoxLayout(panel, BoxLayout.Y_AXIS));
         JButton addBookingBtn = new JButton("Add");
         JTextField regNr = new JTextField(6);
+        // Additional text field for repair details in a fixed-size panel
+        JPanel repairPanel = new JPanel();
+        repairPanel.setLayout(new BoxLayout(repairPanel, BoxLayout.Y_AXIS));
+        repairPanel.setMaximumSize(new Dimension(Integer.MAX_VALUE, 50));
+        JLabel repairLabel = new JLabel("Reparationsdetaljer:");
+        JTextField repairField = new JTextField(20);
+        repairPanel.add(repairLabel);
+        repairPanel.add(repairField);
+        repairPanel.setVisible(false);
         regNr.getDocument().addDocumentListener(new DocumentListener() {
             public void insertUpdate(DocumentEvent e) {
                 validate();
@@ -120,6 +132,7 @@ public class AddBookingView extends JDialog {
         });
         JTextField date = new JTextField(20);
         JTextField vehicle = new JTextField(20);
+        JLabel priceLabel = new JLabel("Pris: Baserad på bokningstyp");
         panel.add(new JLabel("Reg.nr:"));
         panel.add(regNr);
         panel.add(new JLabel("Modell:"));
@@ -130,9 +143,37 @@ public class AddBookingView extends JDialog {
         panel.add(email);
         panel.add(new JLabel("Datum:"));
         panel.add(date);
+        panel.add(priceLabel);
         String[] options = { "Besiktning", "Service", "Reparation" };
         JComboBox<String> comboBox = new JComboBox<>(options);
         panel.add(comboBox);
+        panel.add(repairPanel);
+        comboBox.addActionListener(e -> {
+            String selected = (String) comboBox.getSelectedItem();
+            switch (selected) {
+                case "Besiktning":
+                    // TODO: Read from pricelist
+                    priceLabel.setText("Pris: 500 SEK");
+                    repairPanel.setVisible(false);
+                    break;
+                case "Service":
+                    // TODO: Read from pricelist
+                    priceLabel.setText("Pris: 1500 SEK");
+                    repairPanel.setVisible(false);
+                    break;
+                case "Reparation":
+                    priceLabel.setText("Pris: Baserad på reparationens omfattning");
+                    repairPanel.setVisible(true);
+                    break;
+                default:
+                    priceLabel.setText("Pris: Baserad på bokningstyp");
+                    repairPanel.setVisible(false);
+                    break;
+            }
+            pack();
+            panel.revalidate();
+            panel.repaint();
+        });
         addBookingBtn.setEnabled(false);
         addBookingBtn.addActionListener(ev -> {
             String regString = regNr.getText();

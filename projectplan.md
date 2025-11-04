@@ -2,7 +2,7 @@
 
 - BokningsRepository
 - Prislista
-- BokningsService
+- BokningsService - Pontus, Tilda
   - Skapa Bokning
     - Skicka mail
   - Redigera Bokning

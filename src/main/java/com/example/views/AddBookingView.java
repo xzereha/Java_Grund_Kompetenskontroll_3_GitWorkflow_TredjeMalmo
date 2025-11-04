@@ -35,7 +35,7 @@ public class AddBookingView extends JDialog {
         // panel.setLayout(new CardLayout());
         panel.setLayout(new BoxLayout(panel, BoxLayout.Y_AXIS));
         JButton addBookingBtn = new JButton("Add");
-        JTextField regNr = new JTextField(6);
+        ValidatedTextField regNr = new ValidatedTextField(6, RegNr::isValid);
         // Additional text field for repair details in a fixed-size panel
         JPanel repairPanel = new JPanel();
         repairPanel.setLayout(new BoxLayout(repairPanel, BoxLayout.Y_AXIS));
@@ -45,95 +45,31 @@ public class AddBookingView extends JDialog {
         repairPanel.add(repairLabel);
         repairPanel.add(repairField);
         repairPanel.setVisible(false);
-        regNr.getDocument().addDocumentListener(new DocumentListener() {
-            public void insertUpdate(DocumentEvent e) {
-                validate();
-            }
-
-            public void removeUpdate(DocumentEvent e) {
-                validate();
-            }
-
-            public void changedUpdate(DocumentEvent e) {
-                validate();
-            }
-
-            private void validate() {
-                validReg = RegNr.isValid(regNr.getText());
-                markValid(validReg);
-                updateButtonState(addBookingBtn);
-            }
-
-            private void markValid(boolean valid) {
-                if (valid) {
-                    regNr.setBorder(UIManager.getLookAndFeel().getDefaults().getBorder("TextField.border"));
-                } else {
-                    regNr.setBorder(BorderFactory.createLineBorder(java.awt.Color.RED));
-                }
-            }
-        });
         JTextField model = new JTextField(20);
-        JTextField yearModel = new JTextField(4);
-        yearModel.getDocument().addDocumentListener(new DocumentListener() {
-            public void insertUpdate(DocumentEvent e) {
-                validate();
+        ValidatedTextField yearModel = new ValidatedTextField(4, text -> {
+            if (text.isEmpty()) {
+                return false;
             }
-
-            public void removeUpdate(DocumentEvent e) {
-                validate();
+            if (text.length() != 4) {
+                return false;
             }
-
-            public void changedUpdate(DocumentEvent e) {
-                validate();
-            }
-
-            private void validate() {
-                String text = yearModel.getText();
-                if (text.isEmpty()) {
-                    yearModel.setBorder(BorderFactory.createLineBorder(java.awt.Color.RED));
-                    return;
-                }
-                if (text.length() != 4) {
-                    yearModel.setBorder(BorderFactory.createLineBorder(java.awt.Color.RED));
-                    return;
-                }
-                try {
-                    Integer.parseInt(text);
-                    yearModel.setBorder(UIManager.getLookAndFeel().getDefaults().getBorder("TextField.border"));
-                } catch (NumberFormatException ex) {
-                    yearModel.setBorder(BorderFactory.createLineBorder(java.awt.Color.RED));
-                }
+            try {
+                Integer.parseInt(text);
+                return true;
+            } catch (NumberFormatException ex) {
+                return false;
             }
         });
-        JTextField email = new JTextField(20);
-        email.getDocument().addDocumentListener(new DocumentListener() {
-            public void insertUpdate(DocumentEvent e) {
-                validate();
-            }
+        ValidatedTextField email = new ValidatedTextField(20, Email::isValid);
 
-            public void removeUpdate(DocumentEvent e) {
-                validate();
-            }
-
-            public void changedUpdate(DocumentEvent e) {
-                validate();
-            }
-
-            private void validate() {
-                validEmail = Email.isValid(email.getText());
-                markValid(validEmail);
-                updateButtonState(addBookingBtn);
-            }
-
-            private void markValid(boolean valid) {
-                if (valid) {
-                    email.setBorder(UIManager.getLookAndFeel().getDefaults().getBorder("TextField.border"));
-                } else {
-                    email.setBorder(BorderFactory.createLineBorder(java.awt.Color.RED));
-                }
+        ValidatedTextField date = new ValidatedTextField(20, text -> {
+            try {
+                java.time.LocalDate.parse(text);
+                return true;
+            } catch (Exception ex) {
+                return false;
             }
         });
-        JTextField date = new JTextField(20);
         JLabel priceLabel = new JLabel("Pris: Baserad på bokningstyp");
         panel.add(new JLabel("Reg.nr:"));
         panel.add(regNr);
@@ -187,6 +123,7 @@ public class AddBookingView extends JDialog {
             var email_ = new Email(emailString);
             var year = Integer.parseInt(yearModelString);
             var vehicle = new Vehicle(regNr_, modelString, year);
+            // TODO: Assert that date is valid
             var date_ = java.time.LocalDate.parse(dateString);
             var bookingType = (String) comboBox.getSelectedItem();
             switch (bookingType) {

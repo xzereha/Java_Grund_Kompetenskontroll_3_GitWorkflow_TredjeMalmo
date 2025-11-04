@@ -13,15 +13,15 @@ public class InitService {
 
        // TODO: fix price
         bookingRepository.addBooking(new Booking.Service
-                (new Vehicle(new RegNr("ABC123"), "Model", 2022), new Email("email@address.se"),
+                (new Vehicle(new RegNr("ABC123"), "FIAT PANDA", 2022), new Email("email@address.se"),
                         LocalDate.of(2025,11,28),2334));
 
         bookingRepository.addBooking(new Booking.Inspection
-                (new Vehicle(new RegNr("ABC123"), "Model", 2000), new Email("email@address.se"),
+                (new Vehicle(new RegNr("ABC123"), "MERCEDES SMART", 2000), new Email("email@address.se"),
                         LocalDate.of(2025,12,02),4567));
 
         bookingRepository.addBooking(new Booking.Repair
-                (new Vehicle(new RegNr("ABC123"), "Tesla", 2022), new Email("email@address.se"),
+                (new Vehicle(new RegNr("ABC123"), "TESLA", 2022), new Email("email@address.se"),
                         LocalDate.of(2025,12,03),"Doorhandel"));
 
         bookingRepository.addBooking(new Booking.Service
@@ -45,19 +45,19 @@ public class InitService {
                         LocalDate.of(2025,11,29),9889));
 
         bookingRepository.addBooking(new Booking.Repair
-                (new Vehicle(new RegNr("ABC123"), "Model", 2022), new Email("email@address.se"),
+                (new Vehicle(new RegNr("ABC123"), "SCANIA", 2022), new Email("email@address.se"),
                         LocalDate.of(2024,11,26),"carFarts"));
 
         bookingRepository.addBooking(new Booking.Service
-                (new Vehicle(new RegNr("ABC123"), "Model", 2022), new Email("email@address.se"),
+                (new Vehicle(new RegNr("ABC123"), "VOLVO V60", 2022), new Email("email@address.se"),
                         LocalDate.of(2025,06,26),6778));
 
         bookingRepository.addBooking(new Booking.Inspection
-                (new Vehicle(new RegNr("ABC123"), "Model", 2022), new Email("email@address.se"),
+                (new Vehicle(new RegNr("ABC123"), "NISSAN MICRA", 2022), new Email("email@address.se"),
                         LocalDate.of(2025,11,26),9898));
 
         bookingRepository.addBooking(new Booking.Repair
-                (new Vehicle(new RegNr("ABC123"), "Model", 2022), new Email("email@address.se"),
+                (new Vehicle(new RegNr("ABC123"), "MERCEDES", 2022), new Email("email@address.se"),
                         LocalDate.of(2026,03,26),"carFarts"));
 
         bookingRepository.addBooking(new Booking.Service

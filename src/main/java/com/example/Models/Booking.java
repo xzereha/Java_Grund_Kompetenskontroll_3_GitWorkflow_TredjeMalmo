@@ -1,5 +1,7 @@
 package com.example.Models;
 
+import com.example.PriceList;
+
 import java.time.LocalDate;
 
 public abstract class Booking {
@@ -50,7 +52,7 @@ public abstract class Booking {
         private final float price;
         public Inspection(Vehicle vehicle, Email email, LocalDate date, float price) {
             super(vehicle, email, date);
-            this.price = price;
+            this.price = PriceList.getInspectionPrice();
         }
 
         @Override
@@ -64,7 +66,7 @@ public abstract class Booking {
         private final float price;
         public Service(Vehicle vehicle, Email email, LocalDate date, float price) {
             super(vehicle, email, date);
-            this.price = price;
+            this.price = PriceList.getServicePrice(vehicle.getProductionYear());
         }
 
         @Override

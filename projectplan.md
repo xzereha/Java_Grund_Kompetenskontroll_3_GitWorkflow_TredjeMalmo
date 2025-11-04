@@ -2,13 +2,13 @@
 
 - BokningsRepository
 - Prislista
-- BokningsService - Pontus, Tilda
+- BokningsService 
   - Skapa Bokning
     - Skicka mail
-  - Redigera Bokning
-  - Ta bort Bokning
-  - Visa Bokningar
-  - Visa bokningsdetaljer
+  - Redigera Bokning- Pontus, Tilda - bygger komponent i Test
+  - Ta bort Bokning- Pontus, Tilda - bygger komponent i Test
+  - Visa Bokningar- Pontus, Tilda - bygger komponent i Test
+  - Visa bokningsdetaljer- Pontus, Tilda - bygger komponent i Test
 - Meny
 - Sortering
 - Init (skapa bokningar vid start)

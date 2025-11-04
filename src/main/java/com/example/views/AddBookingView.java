@@ -17,14 +17,17 @@ import javax.swing.UIManager;
 import javax.swing.event.DocumentEvent;
 import javax.swing.event.DocumentListener;
 
+import com.example.BookingRepository;
+import com.example.Models.Booking;
 import com.example.Models.Email;
 import com.example.Models.RegNr;
+import com.example.Models.Vehicle;
 
 public class AddBookingView extends JDialog {
     private boolean validReg = false;
     private boolean validEmail = false;
 
-    public AddBookingView() {
+    public AddBookingView(BookingRepository bookingRepository) {
         setTitle("Ny bokning");
         setModal(true);
         setDefaultCloseOperation(DISPOSE_ON_CLOSE);
@@ -131,7 +134,6 @@ public class AddBookingView extends JDialog {
             }
         });
         JTextField date = new JTextField(20);
-        JTextField vehicle = new JTextField(20);
         JLabel priceLabel = new JLabel("Pris: Baserad på bokningstyp");
         panel.add(new JLabel("Reg.nr:"));
         panel.add(regNr);
@@ -181,7 +183,34 @@ public class AddBookingView extends JDialog {
             String yearModelString = yearModel.getText();
             String emailString = email.getText();
             String dateString = date.getText();
-            // TODO: Add your logic here to handle the values
+            var regNr_ = new RegNr(regString);
+            var email_ = new Email(emailString);
+            var year = Integer.parseInt(yearModelString);
+            var vehicle = new Vehicle(regNr_, modelString, year);
+            var date_ = java.time.LocalDate.parse(dateString);
+            var bookingType = (String) comboBox.getSelectedItem();
+            switch (bookingType) {
+                case "Besiktning": {
+                    var price = 500; // TODO: Read from pricelist
+                    var booking = new Booking.Inspection(vehicle, email_, date_, price);
+                    bookingRepository.addBooking(booking);
+                }
+                    break;
+                case "Service": {
+                    var price = 1000; // TODO: Read from pricelist
+                    var booking = new Booking.Service(vehicle, email_, date_, price);
+                    bookingRepository.addBooking(booking);
+                }
+                    break;
+                case "Reparation": {
+                    String repairDetails = repairField.getText();
+                    var booking = new Booking.Repair(vehicle, email_, date_, repairDetails);
+                    bookingRepository.addBooking(booking);
+                }
+                    break;
+                default:
+                    break;
+            }
             dispose();
         });
         panel.add(Box.createRigidArea(new Dimension(0, 10)));

@@ -28,7 +28,7 @@ public class AddBookingView extends JDialog {
         JPanel panel = new JPanel();
         panel.setLayout(new BoxLayout(panel, BoxLayout.Y_AXIS));
         JButton addBookingBtn = new JButton("Add");
-        JTextField regNr = new JTextField(20);
+        JTextField regNr = new JTextField(6);
         regNr.getDocument().addDocumentListener(new DocumentListener() {
             public void insertUpdate(DocumentEvent e) {
                 validate();
@@ -53,6 +53,39 @@ public class AddBookingView extends JDialog {
                     regNr.setBorder(UIManager.getLookAndFeel().getDefaults().getBorder("TextField.border"));
                 } else {
                     regNr.setBorder(BorderFactory.createLineBorder(java.awt.Color.RED));
+                }
+            }
+        });
+        JTextField model = new JTextField(20);
+        JTextField yearModel = new JTextField(4);
+        yearModel.getDocument().addDocumentListener(new DocumentListener() {
+            public void insertUpdate(DocumentEvent e) {
+                validate();
+            }
+
+            public void removeUpdate(DocumentEvent e) {
+                validate();
+            }
+
+            public void changedUpdate(DocumentEvent e) {
+                validate();
+            }
+
+            private void validate() {
+                String text = yearModel.getText();
+                if (text.isEmpty()) {
+                    yearModel.setBorder(BorderFactory.createLineBorder(java.awt.Color.RED));
+                    return;
+                }
+                if (text.length() != 4) {
+                    yearModel.setBorder(BorderFactory.createLineBorder(java.awt.Color.RED));
+                    return;
+                }
+                try {
+                    Integer.parseInt(text);
+                    yearModel.setBorder(UIManager.getLookAndFeel().getDefaults().getBorder("TextField.border"));
+                } catch (NumberFormatException ex) {
+                    yearModel.setBorder(BorderFactory.createLineBorder(java.awt.Color.RED));
                 }
             }
         });
@@ -88,6 +121,10 @@ public class AddBookingView extends JDialog {
         JTextField vehicle = new JTextField(20);
         panel.add(new JLabel("Reg.nr:"));
         panel.add(regNr);
+        panel.add(new JLabel("Modell:"));
+        panel.add(model);
+        panel.add(new JLabel("Årsmodell:"));
+        panel.add(yearModel);
         panel.add(new JLabel("Email:"));
         panel.add(email);
         panel.add(new JLabel("Datum:"));
@@ -96,10 +133,12 @@ public class AddBookingView extends JDialog {
         panel.add(vehicle);
         addBookingBtn.setEnabled(false);
         addBookingBtn.addActionListener(ev -> {
-            String val1 = regNr.getText();
-            String val2 = email.getText();
-            String val3 = date.getText();
-            String val4 = vehicle.getText();
+            String regString = regNr.getText();
+            String modelString = model.getText();
+            String yearModelString = yearModel.getText();
+            String emailString = email.getText();
+            String dateString = date.getText();
+            String vehicleString = vehicle.getText();
             // TODO: Add your logic here to handle the values
             dispose();
         });

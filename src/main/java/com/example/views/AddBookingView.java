@@ -14,10 +14,12 @@ import javax.swing.UIManager;
 import javax.swing.event.DocumentEvent;
 import javax.swing.event.DocumentListener;
 
+import com.example.Models.Email;
 import com.example.Models.RegNr;
 
 public class AddBookingView extends JDialog {
-    private boolean validInput = false;
+    private boolean validReg = false;
+    private boolean validEmail = false;
 
     public AddBookingView() {
         setTitle("Ny bokning");
@@ -41,10 +43,9 @@ public class AddBookingView extends JDialog {
             }
 
             private void validate() {
-                var validReg = RegNr.isValid(regNr.getText());
-                validInput = validReg;
+                validReg = RegNr.isValid(regNr.getText());
                 markValid(validReg);
-                addBookingBtn.setEnabled(validInput);
+                updateButtonState(addBookingBtn);
             }
 
             private void markValid(boolean valid) {
@@ -56,6 +57,33 @@ public class AddBookingView extends JDialog {
             }
         });
         JTextField email = new JTextField(20);
+        email.getDocument().addDocumentListener(new DocumentListener() {
+            public void insertUpdate(DocumentEvent e) {
+                validate();
+            }
+
+            public void removeUpdate(DocumentEvent e) {
+                validate();
+            }
+
+            public void changedUpdate(DocumentEvent e) {
+                validate();
+            }
+
+            private void validate() {
+                validEmail = Email.isValid(email.getText());
+                markValid(validEmail);
+                updateButtonState(addBookingBtn);
+            }
+
+            private void markValid(boolean valid) {
+                if (valid) {
+                    email.setBorder(UIManager.getLookAndFeel().getDefaults().getBorder("TextField.border"));
+                } else {
+                    email.setBorder(BorderFactory.createLineBorder(java.awt.Color.RED));
+                }
+            }
+        });
         JTextField date = new JTextField(20);
         JTextField vehicle = new JTextField(20);
         panel.add(new JLabel("Reg.nr:"));
@@ -81,5 +109,9 @@ public class AddBookingView extends JDialog {
         getContentPane().add(panel);
         pack();
         setLocationRelativeTo(null);
+    }
+
+    private void updateButtonState(JButton button) {
+        button.setEnabled(validReg && validEmail);
     }
 }

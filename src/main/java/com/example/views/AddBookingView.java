@@ -6,6 +6,7 @@ import javax.swing.BorderFactory;
 import javax.swing.Box;
 import javax.swing.BoxLayout;
 import javax.swing.JButton;
+import javax.swing.JComboBox;
 import javax.swing.JDialog;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
@@ -129,8 +130,9 @@ public class AddBookingView extends JDialog {
         panel.add(email);
         panel.add(new JLabel("Datum:"));
         panel.add(date);
-        panel.add(new JLabel("Fordon:"));
-        panel.add(vehicle);
+        String[] options = { "Besiktning", "Service", "Reparation" };
+        JComboBox<String> comboBox = new JComboBox<>(options);
+        panel.add(comboBox);
         addBookingBtn.setEnabled(false);
         addBookingBtn.addActionListener(ev -> {
             String regString = regNr.getText();
@@ -138,7 +140,6 @@ public class AddBookingView extends JDialog {
             String yearModelString = yearModel.getText();
             String emailString = email.getText();
             String dateString = date.getText();
-            String vehicleString = vehicle.getText();
             // TODO: Add your logic here to handle the values
             dispose();
         });

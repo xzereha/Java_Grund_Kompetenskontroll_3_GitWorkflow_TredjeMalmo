@@ -57,35 +57,43 @@ public class BookingService {
     }
 
 
-    private Booking findBookingByRegNr() {
-        //TODO implement GUI input for String lookingFor
-        String lookingFor = "FCK543";
-
+    private List<Booking> findBookingByRegNr(String regNr) {
         List<Booking> foundBooking = bookingRepository.getBookingList().stream()
-                .filter(b -> b.getVehicle().getRegNr().getRegNr().equals(lookingFor))
+                .filter(b -> b.getVehicle().getRegNr().getRegNr().equals(regNr))
                 .toList();
 
         if (foundBooking.isEmpty()) {
-            logger.info("No booking found for RegNr: {}", lookingFor);
+            logger.info("No booking found for RegNr: {}", regNr);
         } else {
-            logger.info("Booking found for RegNr: {}", lookingFor);
+            logger.info("Booking found for RegNr: {}", regNr);
         }
 
-        return foundBooking.getFirst();
+        return foundBooking;
     }
 
-    public void removeBooking() {
-        Booking booking = findBookingByRegNr();
-        bookingRepository.removeBooking(booking);
+    public boolean removeBooking(Booking booking) {
+        return bookingRepository.removeBooking(booking);
     }
 
-    public void changeBookingStatusToComplete(){
-        Booking booking = findBookingByRegNr();
+    /**
+     * If the booking is a repair it needs a price to be set before it can be completed.
+     * @param booking
+     */
+    public void changeBookingStatusToComplete(Booking booking){
+        if((booking instanceof Booking.Repair)){
+            throw new IllegalArgumentException("Booking is a repair and needs a price");
+        }
         booking.setStatus(Booking.Status.COMPLETED);
     }
+    public void changeBookingStatusToComplete(Booking booking, float price){
+        if(!(booking instanceof Booking.Repair repair)){
+            throw new IllegalArgumentException("Booking is not a repair booking");
+        }
+        repair.setStatus(Booking.Status.COMPLETED);
+        repair.setPrice(price);
+    }
 
-    public void changeBookingStatusToPending(){
-        Booking booking = findBookingByRegNr();
+    public void changeBookingStatusToPending(Booking booking){
         booking.setStatus(Booking.Status.PENDING);
     }
 }

@@ -1,19 +1,8 @@
 package com.example.sorting;
 
-import com.example.Models.Booking;
-import com.example.Models.Email;
-import com.example.Models.RegNr;
-import com.example.Models.Vehicle;
-import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
-import java.time.LocalDate;
-import java.util.ArrayList;
-import java.util.List;
-
-import static org.junit.jupiter.api.Assertions.assertEquals;
-
-public class SortByIdTest {
+public class SortedByDate {
 
     private List<Booking> bookings;
 
@@ -35,18 +24,18 @@ public class SortByIdTest {
     }
 
     @Test
-    void whenSortById_thenReturnSortedBookingsById() {
-        SortByID sortByID = new SortByID(1);
+    void whenSortByDate_thenReturnSortedBookingsByDate() {
 
-        List<Booking> sortedBookings = sortByID.apply(bookings);
+        SortByDate sortByDate = new SortByDate(true);
+        List<Booking> sortedBookings = sortByDate.apply(bookings);
 
-        // Hämta id:n i sorterad lista
-        List<Long> actualOrder = sortedBookings.stream()
-                .map(Booking::getId)
-                .toList();
+        assertTrue(sorted.get(0).getDate().isBefore(sorted.get(1).getDate()));
+        assertTrue(sorted.get(1).getDate().isBefore(sorted.get(2).getDate()));
 
-        assertEquals(0, actualOrder.get(0));
-        assertEquals(1, actualOrder.get(1));
-        assertEquals(2, actualOrder.get(2));
+
+
+
+
     }
+
 }

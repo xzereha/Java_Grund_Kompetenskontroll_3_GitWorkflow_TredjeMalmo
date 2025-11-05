@@ -2,14 +2,14 @@ package com.example.views;
 
 import javax.swing.JFrame;
 
-import com.example.BookingRepository;
+import com.example.BookingService;
 
 public class Menu extends JFrame {
-    public Menu(BookingRepository repo) {
+    public Menu(BookingService bookingService) {
         setTitle("Bokningssystem");
         setSize(800, 600);
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        add(new BookingListView(repo));
+        add(new BookingListView(bookingService));
 
         setVisible(true);
     }

@@ -7,7 +7,7 @@ public class Main {
 
                 BookingRepository repo = new BookingRepository();
                 InitService.init(repo);
-
-                Menu menu = new Menu(repo);
+                BookingService bookingService = new BookingService(repo);
+                Menu menu = new Menu(bookingService);
         }
 }

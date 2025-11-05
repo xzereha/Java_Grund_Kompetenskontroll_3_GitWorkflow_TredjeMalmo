@@ -5,14 +5,14 @@ import java.awt.Dimension;
 import java.awt.BorderLayout;
 import javax.swing.*;
 
-import com.example.BookingRepository;
+import com.example.BookingService;
 
 public class BookingListView extends JPanel {
-    private final BookingRepository bookingRepository;
+    private final BookingService bookingService;
     private final JPanel listPanel;
 
-    public BookingListView(BookingRepository bookingRepository) {
-        this.bookingRepository = bookingRepository;
+    public BookingListView(BookingService bookingService) {
+        this.bookingService = bookingService;
         setLayout(new BorderLayout());
         setBorder(BorderFactory.createLineBorder(Color.GRAY, 1));
 
@@ -32,7 +32,7 @@ public class BookingListView extends JPanel {
         // Add button to add a new booking
         JButton addButton = new JButton("Lägg till bokning");
         addButton.addActionListener(e -> {
-            AddBookingView addBookingView = new AddBookingView(bookingRepository);
+            AddBookingView addBookingView = new AddBookingView(bookingService);
             addBookingView.setVisible(true);
             refreshBookings();
         });
@@ -43,7 +43,7 @@ public class BookingListView extends JPanel {
 
     private void refreshBookings() {
         listPanel.removeAll();
-        for (var booking : bookingRepository.getBookingList()) {
+        for (var booking : bookingService.listBookings()) {
             BookingView bookingView = new BookingView(booking);
             listPanel.add(bookingView);
         }

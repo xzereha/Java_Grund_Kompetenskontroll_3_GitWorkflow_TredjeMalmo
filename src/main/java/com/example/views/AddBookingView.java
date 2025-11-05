@@ -12,7 +12,7 @@ import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JTextField;
 
-import com.example.BookingRepository;
+import com.example.BookingService;
 import com.example.PriceList;
 import com.example.Models.Booking;
 import com.example.Models.Email;
@@ -25,7 +25,7 @@ public class AddBookingView extends JDialog {
     private boolean validYear = false;
     private boolean validDate = false;
 
-    public AddBookingView(BookingRepository bookingRepository) {
+    public AddBookingView(BookingService bookingService) {
         setTitle("Ny bokning");
         setModalityType(ModalityType.DOCUMENT_MODAL);
         setDefaultCloseOperation(DISPOSE_ON_CLOSE);
@@ -143,31 +143,22 @@ public class AddBookingView extends JDialog {
             String yearModelString = yearModel.getText();
             String emailString = email.getText();
             String dateString = date.getText();
-            var regNr_ = new RegNr(regString);
-            var email_ = new Email(emailString);
             var year = Integer.parseInt(yearModelString);
-            var vehicle = new Vehicle(regNr_, modelString, year);
             // TODO: Assert that date is valid
             var date_ = java.time.LocalDate.parse(dateString);
             var bookingType = (String) comboBox.getSelectedItem();
             switch (bookingType) {
-                case "Besiktning": {
-                    var price = 500; // TODO: Read from pricelist
-                    var booking = new Booking.Inspection(vehicle, email_, date_, price);
-                    bookingRepository.addBooking(booking);
-                }
+                case "Besiktning":
+                    bookingService.bookInspection(regString, modelString, year, emailString, date_);
+
                     break;
-                case "Service": {
-                    var price = 1000; // TODO: Read from pricelist
-                    var booking = new Booking.Service(vehicle, email_, date_, price);
-                    bookingRepository.addBooking(booking);
-                }
+                case "Service":
+                    bookingService.bookService(regString, modelString, year, emailString, date_);
+
                     break;
-                case "Reparation": {
+                case "Reparation":
                     String repairDetails = repairField.getText();
-                    var booking = new Booking.Repair(vehicle, email_, date_, repairDetails);
-                    bookingRepository.addBooking(booking);
-                }
+                    bookingService.bookRepair(regString, modelString, year, emailString, date_, repairDetails);
                     break;
                 default:
                     break;

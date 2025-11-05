@@ -129,6 +129,7 @@ public class BookingView extends JPanel {
         JButton editButton = new JButton("Ändra bokning");
         editButton.addActionListener(e -> {
             System.out.println("Ändrar bokning " + booking.getId());
+            // TODO: Implement edit functionality
             if (bookingChangedListener != null) {
                 bookingChangedListener.bookingChanged();
             }

@@ -53,6 +53,7 @@ public class BookingView extends JPanel {
 
     private void renderCompact() {
         setLayout(new BoxLayout(this, BoxLayout.X_AXIS));
+        drawTypeInfo();
         add(Box.createRigidArea(new Dimension(10, 0)));
         add(new JLabel("ID: " + booking.getId()));
         add(Box.createRigidArea(new Dimension(20, 0)));
@@ -62,13 +63,30 @@ public class BookingView extends JPanel {
 
     private void renderExpanded() {
         setLayout(new BoxLayout(this, BoxLayout.Y_AXIS));
+        drawTypeInfo();
         add(Box.createRigidArea(new Dimension(0, 10)));
         add(new JLabel("ID: " + booking.getId()));
         add(new JLabel("Datum: " + booking.getDate().toString()));
         add(new JLabel("Email: " + booking.getEmail().getEmail()));
-        add(new JLabel("Fordon: " + booking.getVehicle()));
+        drawVehicleInfo();
         add(new JLabel("Pris: " + booking.getPrice()));
         add(new JLabel("Status: " + booking.getStatus()));
         add(Box.createVerticalGlue());
+    }
+
+    private void drawTypeInfo() {
+        if (booking instanceof Booking.Inspection) {
+            add(new JLabel("Besiktning"));
+        } else if (booking instanceof Booking.Service) {
+            add(new JLabel("Service"));
+        } else if (booking instanceof Booking.Repair) {
+            add(new JLabel("Reparation"));
+        }
+    }
+
+    private void drawVehicleInfo() {
+        var vehicle = booking.getVehicle();
+        add(new JLabel("Fordon: " + vehicle.getRegNr().getRegNr() + ", " + vehicle.getModel() + ", "
+                + vehicle.getProductionYear()));
     }
 }

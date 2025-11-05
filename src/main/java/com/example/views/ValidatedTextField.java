@@ -5,11 +5,13 @@ import javax.swing.JTextField;
 public class ValidatedTextField extends JTextField {
     private boolean valid;
     private ITextValidation validator;
+    private ValidationListener listener;
 
     public ValidatedTextField(int columns, ITextValidation validator) {
         super(columns);
         this.valid = false;
         this.validator = validator;
+        this.listener = null;
 
         this.getDocument().addDocumentListener(new javax.swing.event.DocumentListener() {
             public void insertUpdate(javax.swing.event.DocumentEvent e) {
@@ -26,6 +28,10 @@ public class ValidatedTextField extends JTextField {
         });
     }
 
+    public void setValidationListener(ValidationListener listener) {
+        this.listener = listener;
+    }
+
     public boolean isValid() {
         return valid;
     }
@@ -37,5 +43,13 @@ public class ValidatedTextField extends JTextField {
         } else {
             setBorder(javax.swing.BorderFactory.createLineBorder(java.awt.Color.RED));
         }
+        if (listener != null) {
+            listener.valid(valid);
+        }
+    }
+
+    @FunctionalInterface
+    public interface ValidationListener {
+        void valid(boolean isValid);
     }
 }

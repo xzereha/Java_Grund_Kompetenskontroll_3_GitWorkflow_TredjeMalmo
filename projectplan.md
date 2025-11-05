@@ -1,8 +1,8 @@
 # Plan
 
 - ✅ BokningsRepository
-- Prislista (Mimmi)
-- BokningsService 
+- ✅ Prislista (Mimmi)
+- ✅ BokningsService 
   - Skapa Bokning  - Skapa Bokning, Pontus, Tilda - bygger komponent i Test
     - Skicka mail
   - Redigera Bokning- Pontus, Tilda - bygger komponent i Test

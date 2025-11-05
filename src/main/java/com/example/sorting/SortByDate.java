@@ -15,7 +15,7 @@ public class SortByDate implements Sort {
     @Override
     public List<Booking> apply(List<Booking> bookings) {
         Comparator<Booking> comparator = Comparator.comparing(Booking :: getDate);
-        if (!newestFirst) {
+        if (newestFirst) {
             comparator = comparator.reversed();
         }
         return bookings.stream()

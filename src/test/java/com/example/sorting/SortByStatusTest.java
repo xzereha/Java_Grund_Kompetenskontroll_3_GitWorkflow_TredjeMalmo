@@ -1,7 +1,17 @@
 package com.example.sorting;
 
 import com.example.Models.Booking;
+import com.example.Models.Email;
+import com.example.Models.RegNr;
+import com.example.Models.Vehicle;
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
+
+import java.time.LocalDate;
+import java.util.ArrayList;
+import java.util.List;
+
+import static org.junit.jupiter.api.Assertions.assertEquals;
 
 public class SortByStatusTest {
 
@@ -26,17 +36,14 @@ public class SortByStatusTest {
 
     @Test
     void whenSortByStatus_thenReturnSortedBookingsByStatus() {
-
         SortByStatus sortByStatus = new SortByStatus(Booking.Status.PENDING);
 
         List<Booking> sortedBookings = sortByStatus.apply(bookings);
-
 
         assertEquals(Booking.Status.PENDING, sortedBookings.get(0).getStatus());
         assertEquals(Booking.Status.PENDING, sortedBookings.get(1).getStatus());
         assertEquals(Booking.Status.PENDING, sortedBookings.get(2).getStatus());
     }
     // TODO test for completed bookings
-
 
 }

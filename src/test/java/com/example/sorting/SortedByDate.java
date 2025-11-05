@@ -1,6 +1,17 @@
 package com.example.sorting;
 
+import com.example.Models.Booking;
+import com.example.Models.Email;
+import com.example.Models.RegNr;
+import com.example.Models.Vehicle;
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
+
+import java.time.LocalDate;
+import java.util.ArrayList;
+import java.util.List;
+
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
 public class SortedByDate {
 
@@ -24,18 +35,20 @@ public class SortedByDate {
     }
 
     @Test
-    void whenSortByDate_thenReturnSortedBookingsByDate() {
-
+    void whenSortByDate_thenReturnSortedByNewestFirst() {
         SortByDate sortByDate = new SortByDate(true);
         List<Booking> sortedBookings = sortByDate.apply(bookings);
 
-        assertTrue(sorted.get(0).getDate().isBefore(sorted.get(1).getDate()));
-        assertTrue(sorted.get(1).getDate().isBefore(sorted.get(2).getDate()));
-
-
-
-
-
+        assertTrue(sortedBookings.get(2).getDate().isBefore(sortedBookings.get(1).getDate()));
+        assertTrue(sortedBookings.get(1).getDate().isBefore(sortedBookings.get(0).getDate()));
     }
 
+    @Test
+    void whenSortByDate_thenReturnSortedByOldestFirst() {
+        SortByDate sortByDate = new SortByDate(false);
+        List<Booking> sortedBookings = sortByDate.apply(bookings);
+
+        assertTrue(sortedBookings.get(0).getDate().isBefore(sortedBookings.get(1).getDate()));
+        assertTrue(sortedBookings.get(1).getDate().isBefore(sortedBookings.get(2).getDate()));
+    }
 }

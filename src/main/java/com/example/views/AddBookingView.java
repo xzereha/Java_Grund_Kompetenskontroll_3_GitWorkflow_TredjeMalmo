@@ -183,6 +183,6 @@ public class AddBookingView extends JDialog {
     }
 
     private void updateButtonState(JButton button) {
-        button.setEnabled(validReg && validEmail && validDate);
+        button.setEnabled(validReg && validEmail && validYear && validDate);
     }
 }

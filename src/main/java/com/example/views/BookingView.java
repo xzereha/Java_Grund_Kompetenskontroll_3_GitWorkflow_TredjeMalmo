@@ -92,13 +92,15 @@ public class BookingView extends JPanel {
         drawVehicleInfo(dataPanel);
         dataPanel.add(new JLabel("Pris: " + booking.getPrice()));
         dataPanel.add(new JLabel("Status: " + booking.getStatus()));
+        if (booking instanceof Booking.Repair repair) {
+            dataPanel.add(new JLabel("Reparationsdetaljer: " + repair.getDescription()));
+        }
         add(dataPanel);
 
         var controlPanel = new JPanel();
         controlPanel.setLayout(new FlowLayout());
         JButton finishButton = new JButton("Avsluta bokning");
         finishButton.addActionListener(e -> {
-            System.out.println("Avslutar bokning " + booking.getId());
             if (booking instanceof Booking.Repair) {
                 var input = JOptionPane.showInputDialog(this,
                         "Ange pris för reparation:",
@@ -128,8 +130,7 @@ public class BookingView extends JPanel {
         controlPanel.add(finishButton);
         JButton editButton = new JButton("Ändra bokning");
         editButton.addActionListener(e -> {
-            System.out.println("Ändrar bokning " + booking.getId());
-            // TODO: Implement edit functionality
+            new EditBookingWindow(booking).setVisible(true);
             if (bookingChangedListener != null) {
                 bookingChangedListener.bookingChanged();
             }

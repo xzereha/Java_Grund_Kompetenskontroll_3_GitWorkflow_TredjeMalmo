@@ -10,9 +10,9 @@ public abstract class Booking {
 
     private final long id;
     private static long nextId = 0;
-    private final Vehicle vehicle;
-    private final Email email;
-    private final LocalDate date;
+    private Vehicle vehicle;
+    private Email email;
+    private LocalDate date;
     private Status status;
 
     public Booking(Vehicle vehicle, Email email, LocalDate date) {
@@ -31,12 +31,24 @@ public abstract class Booking {
         return vehicle;
     }
 
+    public void setVehicle(Vehicle vehicle) {
+        this.vehicle = vehicle;
+    }
+
     public Email getEmail() {
         return email;
     }
 
+    public void setEmail(Email email) {
+        this.email = email;
+    }
+
     public LocalDate getDate() {
         return date;
+    }
+
+    public void setDate(LocalDate date) {
+        this.date = date;
     }
 
     public Status getStatus() {
@@ -79,7 +91,7 @@ public abstract class Booking {
 
     public static class Repair extends Booking {
         private float price;
-        private final String description;
+        private String description;
 
         public Repair(Vehicle vehicle, Email email, LocalDate date, String description) {
             super(vehicle, email, date);
@@ -89,6 +101,10 @@ public abstract class Booking {
 
         public String getDescription() {
             return description;
+        }
+
+        public void setDescription(String description) {
+            this.description = description;
         }
 
         public void setPrice(float price) {

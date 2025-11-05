@@ -8,6 +8,8 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import java.time.LocalDate;
+import java.util.List;
+import java.util.stream.Collectors;
 
 public class BookingService {
     private static final Logger logger = LoggerFactory.getLogger(BookingService.class.getName());
@@ -53,4 +55,21 @@ public class BookingService {
         return wasAdded;
     }
 
+
+    private Booking findBookingByRegNr() {
+        //TODO implement GUI input for String lookingFor
+        String lookingFor = "FCK543";
+
+        List<Booking> foundBooking = bookingRepository.getBookingList().stream()
+                .filter(b -> b.getVehicle().getRegNr().getRegNr().equals(lookingFor))
+                .toList();
+
+        if (foundBooking.isEmpty()) {
+            logger.info("No booking found for RegNr: {}", lookingFor);
+        } else {
+            logger.info("Booking found for RegNr: {}", lookingFor);
+        }
+
+        return foundBooking.getFirst();
+    }
 }

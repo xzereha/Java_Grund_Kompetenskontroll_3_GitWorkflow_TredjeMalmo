@@ -15,7 +15,7 @@ public class BookingService {
     private static final Logger logger = LoggerFactory.getLogger(BookingService.class.getName());
     private final BookingRepository bookingRepository;
     private final PriceList priceList = new PriceList();
-    //private final EmailService emailService;
+    private final EmailService emailService = new EmailService();
 
     public BookingService(BookingRepository bookingRepository) {
         this.bookingRepository = bookingRepository;
@@ -52,7 +52,7 @@ public class BookingService {
 
     private boolean registerBooking(Booking booking) {
         boolean wasAdded = bookingRepository.addBooking(booking);
-
+        emailService.sendEmail(booking.getEmail(), "Bokning godkänd", "Bokningen är godkänd");
         return wasAdded;
     }
 
@@ -84,6 +84,7 @@ public class BookingService {
             throw new IllegalArgumentException("Booking is a repair and needs a price");
         }
         booking.setStatus(Booking.Status.COMPLETED);
+        emailService.sendEmail(booking.getEmail(), "Din bil är klar!", "Bilen går att hämta i verkstan!");
     }
     public void changeBookingStatusToComplete(Booking booking, float price){
         if(!(booking instanceof Booking.Repair repair)){
@@ -91,6 +92,8 @@ public class BookingService {
         }
         repair.setStatus(Booking.Status.COMPLETED);
         repair.setPrice(price);
+        emailService.sendEmail(booking.getEmail(), "Din bil är klar!", "Bilen går att hämta i verkstan! " +
+                "Priset blir: " + price + "kr");
     }
 
     public void changeBookingStatusToPending(Booking booking){

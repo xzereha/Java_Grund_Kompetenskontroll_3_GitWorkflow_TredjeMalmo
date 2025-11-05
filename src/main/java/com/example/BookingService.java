@@ -28,6 +28,7 @@ public class BookingService {
         var price_ = priceList.getInspectionPrice();
         var booking = new Booking.Inspection(vehicle, email_, date, price_);
 
+        logger.info("Booked an inspection for {} on {}", regNr, date);
         return registerBooking(booking);
     }
 
@@ -38,6 +39,7 @@ public class BookingService {
         var price_ = priceList.getServicePrice(yearModel);
         var booking = new Booking.Service(vehicle, email_, date, price_);
 
+        logger.info("Booked a service for {} on {}", regNr, date);
         return registerBooking(booking);
     }
 
@@ -48,6 +50,7 @@ public class BookingService {
         var vehicle = new Vehicle(regNr_, vehicleModel, yearModel);
         var booking = new Booking.Repair(vehicle, email_, date, repairDescription);
 
+        logger.info("Booked a repair for {} on {}", regNr, date);
         return registerBooking(booking);
     }
 
@@ -72,7 +75,14 @@ public class BookingService {
     }
 
     public boolean removeBooking(Booking booking) {
-        return bookingRepository.removeBooking(booking);
+        boolean removeSuccess = bookingRepository.removeBooking(booking);
+        if (removeSuccess) {
+            logger.info("Booking for RegNr: {} was removed", booking.getVehicle().getRegNr());
+        } else {
+            logger.warn("Tried removing non-existing booking (regNr: {})", booking.getVehicle().getRegNr());
+        }
+
+        return removeSuccess;
     }
 
     /**
@@ -87,6 +97,7 @@ public class BookingService {
         }
         booking.setStatus(Booking.Status.COMPLETED);
         emailService.sendEmail(booking.getEmail(), "Din bil är klar!", "Bilen går att hämta i verkstan!");
+        logger.info("Booking has been completed!");
     }
 
     public void changeBookingStatusToComplete(Booking booking, float price) {
@@ -97,10 +108,12 @@ public class BookingService {
         repair.setPrice(price);
         emailService.sendEmail(booking.getEmail(), "Din bil är klar!", "Bilen går att hämta i verkstan! " +
                 "Priset blir: " + price + "kr");
+        logger.info("Repair has been completed with the price of {} kr", price);
     }
 
     public void changeBookingStatusToPending(Booking booking) {
         booking.setStatus(Booking.Status.PENDING);
+        logger.info("Booking status had been changed to pending.");
     }
 
     public List<Booking> listBookings() {

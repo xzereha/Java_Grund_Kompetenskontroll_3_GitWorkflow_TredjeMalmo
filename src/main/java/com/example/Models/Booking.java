@@ -44,6 +44,10 @@ public abstract class Booking {
 
     public abstract float getPrice();
 
+    public void setStatus(Status status) {
+        this.status = status;
+    }
+
 
 
     public static class Inspection extends Booking {

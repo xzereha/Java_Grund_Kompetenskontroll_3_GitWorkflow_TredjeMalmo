@@ -14,6 +14,7 @@ import java.util.stream.Collectors;
 public class BookingService {
     private static final Logger logger = LoggerFactory.getLogger(BookingService.class.getName());
     private final BookingRepository bookingRepository;
+    private final PriceList priceList = new PriceList();
     //private final EmailService emailService;
 
     public BookingService(BookingRepository bookingRepository) {
@@ -24,7 +25,7 @@ public class BookingService {
         var regNr_ = new RegNr(regNr); // NOTE can throw
         var email_ = new Email(email); // NOTE can throw
         var vehicle = new Vehicle(regNr_, vehicleModel, yearModel);
-        var price_ = 1000; // TODO fetch from price list
+        var price_ = priceList.getInspectionPrice();
         var booking = new Booking.Inspection(vehicle, email_, date, price_);
 
         return registerBooking(booking);
@@ -34,7 +35,7 @@ public class BookingService {
         var regNr_ = new RegNr(regNr); // NOTE can throw
         var email_ = new Email(email); // NOTE can throw
         var vehicle = new Vehicle(regNr_, vehicleModel, yearModel);
-        var price_ = 1200; // TODO fetch from price list
+        var price_ = priceList.getServicePrice(yearModel);
         var booking = new Booking.Service(vehicle, email_, date, price_);
 
         return registerBooking(booking);
@@ -54,10 +55,6 @@ public class BookingService {
 
         return wasAdded;
     }
-    //TODO viewBooking
-    public void viewBookings(){
-
-    }
 
 
     private Booking findBookingByRegNr() {
@@ -76,12 +73,19 @@ public class BookingService {
 
         return foundBooking.getFirst();
     }
-    //TODO removeBooking
-    public void removeBooking(){
 
+    public void removeBooking() {
+        Booking booking = findBookingByRegNr();
+        bookingRepository.removeBooking(booking);
     }
-    //TODO viewBooking
-    public void viewBooking(){
 
+    public void changeBookingStatusToComplete(){
+        Booking booking = findBookingByRegNr();
+        booking.setStatus(Booking.Status.COMPLETED);
+    }
+
+    public void changeBookingStatusToPending(){
+        Booking booking = findBookingByRegNr();
+        booking.setStatus(Booking.Status.PENDING);
     }
 }

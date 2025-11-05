@@ -9,7 +9,7 @@
   - Ta bort Bokning- Pontus, Tilda - bygger komponent i Test
   - Visa Bokningar- Pontus, Tilda - bygger komponent i Test
   - Visa bokningsdetaljer- Pontus, Tilda - bygger komponent i Test
-- Meny | in progress|  Oliver
+- Meny | in progress |  Oliver
 - ✅ Sortering | Mario & Vera
 - ✅ Init (skapa bokningar vid start) (Mimmi)
 - ✅ MailService (Mimmi)

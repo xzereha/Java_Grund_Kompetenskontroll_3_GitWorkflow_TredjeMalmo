@@ -20,10 +20,17 @@ public class BookingView extends JPanel {
     private boolean expanded = false;
     private final BookingService bookingService;
     private final Booking booking;
+    private OnBookingChanged bookingChangedListener;
 
     public BookingView(Booking booking, BookingService bookingService) {
+        this(booking, bookingService, null);
+    }
+
+    public BookingView(Booking booking, BookingService bookingService, OnBookingChanged listener) {
         this.booking = booking;
         this.bookingService = bookingService;
+        this.bookingChangedListener = listener;
+
         setLayout(new BoxLayout(this, BoxLayout.X_AXIS));
         setBorder(BorderFactory.createLineBorder(Color.BLACK, 1));
         setBorder(BorderFactory.createRaisedSoftBevelBorder());
@@ -53,6 +60,10 @@ public class BookingView extends JPanel {
                 repaint();
             }
         });
+    }
+
+    public void setBookingChangedListener(OnBookingChanged listener) {
+        this.bookingChangedListener = listener;
     }
 
     private void renderCompact() {
@@ -88,18 +99,47 @@ public class BookingView extends JPanel {
         JButton finishButton = new JButton("Avsluta bokning");
         finishButton.addActionListener(e -> {
             System.out.println("Avslutar bokning " + booking.getId());
+            if (booking instanceof Booking.Repair) {
+                var input = JOptionPane.showInputDialog(this,
+                        "Ange pris för reparation:",
+                        "Slutför reparation",
+                        JOptionPane.PLAIN_MESSAGE);
+                if (input == null) {
+                    return; // User cancelled
+                }
+                float price;
+                try {
+                    price = Float.parseFloat(input);
+                } catch (NumberFormatException ex) {
+                    JOptionPane.showMessageDialog(this,
+                            "Ogiltigt pris angivet. Försök igen.",
+                            "Fel",
+                            JOptionPane.ERROR_MESSAGE);
+                    return;
+                }
+                bookingService.changeBookingStatusToComplete(booking, price);
+            } else {
+                bookingService.changeBookingStatusToComplete(booking);
+            }
+            if (bookingChangedListener != null) {
+                bookingChangedListener.bookingChanged();
+            }
         });
         controlPanel.add(finishButton);
         JButton editButton = new JButton("Ändra bokning");
         editButton.addActionListener(e -> {
             System.out.println("Ändrar bokning " + booking.getId());
+            if (bookingChangedListener != null) {
+                bookingChangedListener.bookingChanged();
+            }
         });
         controlPanel.add(editButton);
         JButton cancelButton = new JButton("Avboka bokning");
         cancelButton.addActionListener(e -> {
             bookingService.removeBooking(booking);
-            // SwingUtilities.getWindowAncestor(this).dispose();
-            System.out.println("Avbokar bokning " + booking.getId());
+            if (bookingChangedListener != null) {
+                bookingChangedListener.bookingChanged();
+            }
         });
         controlPanel.add(cancelButton);
         add(controlPanel);

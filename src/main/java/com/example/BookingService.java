@@ -54,6 +54,10 @@ public class BookingService {
 
         return wasAdded;
     }
+    //TODO viewBooking
+    public void viewBookings(){
+
+    }
 
 
     private Booking findBookingByRegNr() {
@@ -71,5 +75,13 @@ public class BookingService {
         }
 
         return foundBooking.getFirst();
+    }
+    //TODO removeBooking
+    public void removeBooking(){
+
+    }
+    //TODO viewBooking
+    public void viewBooking(){
+
     }
 }

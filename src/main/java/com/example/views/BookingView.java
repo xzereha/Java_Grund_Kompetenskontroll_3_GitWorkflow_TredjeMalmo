@@ -2,18 +2,19 @@
 package com.example.views;
 
 import java.awt.Color;
-import java.awt.Dimension;
-
-import javax.swing.*;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
+import java.awt.Dimension;
+import java.awt.FlowLayout;
+
+import javax.swing.*;
 
 import com.example.Models.Booking;
 
 public class BookingView extends JPanel {
     private static final int PREFERRED_WIDTH = 400;
     private static final int PREFERRED_HEIGHT = 80;
-    private static final int EXPANDED_HEIGHT = 160;
+    private static final int EXPANDED_HEIGHT = 200;
 
     private boolean expanded = false;
     private final Booking booking;
@@ -53,40 +54,65 @@ public class BookingView extends JPanel {
 
     private void renderCompact() {
         setLayout(new BoxLayout(this, BoxLayout.X_AXIS));
-        drawTypeInfo();
+        drawTypeInfo(this);
         add(Box.createRigidArea(new Dimension(10, 0)));
         add(new JLabel("ID: " + booking.getId()));
         add(Box.createRigidArea(new Dimension(20, 0)));
         add(new JLabel("Datum: " + booking.getDate().toString()));
+        add(Box.createRigidArea(new Dimension(20, 0)));
+        add(new JLabel("Status : " + booking.getStatus()));
         add(Box.createHorizontalGlue());
     }
 
     private void renderExpanded() {
-        setLayout(new BoxLayout(this, BoxLayout.Y_AXIS));
-        drawTypeInfo();
-        add(Box.createRigidArea(new Dimension(0, 10)));
-        add(new JLabel("ID: " + booking.getId()));
-        add(new JLabel("Datum: " + booking.getDate().toString()));
-        add(new JLabel("Email: " + booking.getEmail().getEmail()));
-        drawVehicleInfo();
-        add(new JLabel("Pris: " + booking.getPrice()));
-        add(new JLabel("Status: " + booking.getStatus()));
-        add(Box.createVerticalGlue());
+        setLayout(new FlowLayout());
+
+        var dataPanel = new JPanel();
+        dataPanel.setLayout(new BoxLayout(dataPanel, BoxLayout.Y_AXIS));
+        dataPanel.setAlignmentX(LEFT_ALIGNMENT);
+        drawTypeInfo(dataPanel);
+        dataPanel.add(Box.createRigidArea(new Dimension(0, 10)));
+        dataPanel.add(new JLabel("ID: " + booking.getId()));
+        dataPanel.add(new JLabel("Datum: " + booking.getDate().toString()));
+        dataPanel.add(new JLabel("Email: " + booking.getEmail().getEmail()));
+        drawVehicleInfo(dataPanel);
+        dataPanel.add(new JLabel("Pris: " + booking.getPrice()));
+        dataPanel.add(new JLabel("Status: " + booking.getStatus()));
+        add(dataPanel);
+
+        var controlPanel = new JPanel();
+        controlPanel.setLayout(new FlowLayout());
+        JButton finishButton = new JButton("Avsluta bokning");
+        finishButton.addActionListener(e -> {
+            System.out.println("Avslutar bokning " + booking.getId());
+        });
+        controlPanel.add(finishButton);
+        JButton editButton = new JButton("Ändra bokning");
+        editButton.addActionListener(e -> {
+            System.out.println("Ändrar bokning " + booking.getId());
+        });
+        controlPanel.add(editButton);
+        JButton cancelButton = new JButton("Avboka bokning");
+        cancelButton.addActionListener(e -> {
+            System.out.println("Avbokar bokning " + booking.getId());
+        });
+        controlPanel.add(cancelButton);
+        add(controlPanel);
     }
 
-    private void drawTypeInfo() {
+    private void drawTypeInfo(JPanel panel) {
         if (booking instanceof Booking.Inspection) {
-            add(new JLabel("Besiktning"));
+            panel.add(new JLabel("Besiktning"));
         } else if (booking instanceof Booking.Service) {
-            add(new JLabel("Service"));
+            panel.add(new JLabel("Service"));
         } else if (booking instanceof Booking.Repair) {
-            add(new JLabel("Reparation"));
+            panel.add(new JLabel("Reparation"));
         }
     }
 
-    private void drawVehicleInfo() {
+    private void drawVehicleInfo(JPanel panel) {
         var vehicle = booking.getVehicle();
-        add(new JLabel("Fordon: " + vehicle.getRegNr().getRegNr() + ", " + vehicle.getModel() + ", "
+        panel.add(new JLabel("Fordon: " + vehicle.getRegNr().getRegNr() + ", " + vehicle.getModel() + ", "
                 + vehicle.getProductionYear()));
     }
 }

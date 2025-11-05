@@ -7,6 +7,7 @@ public abstract class Booking {
         PENDING,
         COMPLETED
     }
+
     private final long id;
     private static long nextId = 0;
     private final Vehicle vehicle;
@@ -48,10 +49,9 @@ public abstract class Booking {
         this.status = status;
     }
 
-
-
     public static class Inspection extends Booking {
         private final float price;
+
         public Inspection(Vehicle vehicle, Email email, LocalDate date, float price) {
             super(vehicle, email, date);
             this.price = price;
@@ -63,9 +63,9 @@ public abstract class Booking {
         }
     }
 
-
     public static class Service extends Booking {
         private final float price;
+
         public Service(Vehicle vehicle, Email email, LocalDate date, float price) {
             super(vehicle, email, date);
             this.price = price;
@@ -80,6 +80,7 @@ public abstract class Booking {
     public static class Repair extends Booking {
         private float price;
         private final String description;
+
         public Repair(Vehicle vehicle, Email email, LocalDate date, String description) {
             super(vehicle, email, date);
             this.price = 0;

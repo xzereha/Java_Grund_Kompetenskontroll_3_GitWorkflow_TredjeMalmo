@@ -43,7 +43,8 @@ public class BookingService {
         return registerBooking(booking);
     }
 
-    public boolean bookRepair(String regNr, String vehicleModel, int yearModel, String email, LocalDate date, String repairDescription) {
+    public boolean bookRepair(String regNr, String vehicleModel, int yearModel, String email, LocalDate date,
+            String repairDescription) {
         var regNr_ = new RegNr(regNr); // NOTE can throw
         var email_ = new Email(email); // NOTE can throw
         var vehicle = new Vehicle(regNr_, vehicleModel, yearModel);
@@ -58,7 +59,6 @@ public class BookingService {
         emailService.sendEmail(booking.getEmail(), "Bokning godkänd", "Bokningen är godkänd");
         return wasAdded;
     }
-
 
     private List<Booking> findBookingByRegNr(String regNr) {
         List<Booking> foundBooking = bookingRepository.getBookingList().stream()
@@ -86,11 +86,13 @@ public class BookingService {
     }
 
     /**
-     * If the booking is a repair it needs a price to be set before it can be completed.
+     * If the booking is a repair it needs a price to be set before it can be
+     * completed.
+     * 
      * @param booking
      */
-    public void changeBookingStatusToComplete(Booking booking){
-        if((booking instanceof Booking.Repair)){
+    public void changeBookingStatusToComplete(Booking booking) {
+        if ((booking instanceof Booking.Repair)) {
             throw new IllegalArgumentException("Booking is a repair and needs a price");
         }
         booking.setStatus(Booking.Status.COMPLETED);
@@ -98,8 +100,8 @@ public class BookingService {
         logger.info("Booking has been completed!");
     }
 
-    public void changeBookingStatusToComplete(Booking booking, float price){
-        if(!(booking instanceof Booking.Repair repair)){
+    public void changeBookingStatusToComplete(Booking booking, float price) {
+        if (!(booking instanceof Booking.Repair repair)) {
             throw new IllegalArgumentException("Booking is not a repair booking");
         }
         repair.setStatus(Booking.Status.COMPLETED);
@@ -109,8 +111,12 @@ public class BookingService {
         logger.info("Repair has been completed with the price of {} kr", price);
     }
 
-    public void changeBookingStatusToPending(Booking booking){
+    public void changeBookingStatusToPending(Booking booking) {
         booking.setStatus(Booking.Status.PENDING);
         logger.info("Booking status had been changed to pending.");
+    }
+
+    public List<Booking> listBookings() {
+        return bookingRepository.getBookingList();
     }
 }

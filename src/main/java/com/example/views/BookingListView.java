@@ -44,7 +44,7 @@ public class BookingListView extends JPanel {
     private void refreshBookings() {
         listPanel.removeAll();
         for (var booking : bookingService.listBookings()) {
-            BookingView bookingView = new BookingView(booking);
+            BookingView bookingView = new BookingView(booking, bookingService);
             listPanel.add(bookingView);
         }
         listPanel.revalidate();

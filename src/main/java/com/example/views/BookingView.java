@@ -9,6 +9,7 @@ import java.awt.FlowLayout;
 
 import javax.swing.*;
 
+import com.example.BookingService;
 import com.example.Models.Booking;
 
 public class BookingView extends JPanel {
@@ -17,10 +18,12 @@ public class BookingView extends JPanel {
     private static final int EXPANDED_HEIGHT = 200;
 
     private boolean expanded = false;
+    private final BookingService bookingService;
     private final Booking booking;
 
-    public BookingView(Booking booking) {
+    public BookingView(Booking booking, BookingService bookingService) {
         this.booking = booking;
+        this.bookingService = bookingService;
         setLayout(new BoxLayout(this, BoxLayout.X_AXIS));
         setBorder(BorderFactory.createLineBorder(Color.BLACK, 1));
         setBorder(BorderFactory.createRaisedSoftBevelBorder());
@@ -94,6 +97,8 @@ public class BookingView extends JPanel {
         controlPanel.add(editButton);
         JButton cancelButton = new JButton("Avboka bokning");
         cancelButton.addActionListener(e -> {
+            bookingService.removeBooking(booking);
+            // SwingUtilities.getWindowAncestor(this).dispose();
             System.out.println("Avbokar bokning " + booking.getId());
         });
         controlPanel.add(cancelButton);

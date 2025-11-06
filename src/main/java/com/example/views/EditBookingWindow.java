@@ -1,6 +1,5 @@
 package com.example.views;
 
-import java.awt.Dialog.ModalityType;
 import java.awt.Dimension;
 
 import javax.swing.BorderFactory;
@@ -17,14 +16,12 @@ import com.example.Models.Email;
 import com.example.Models.RegNr;
 
 public class EditBookingWindow extends JFrame {
-    private final Booking booking;
     private boolean validReg = true;
     private boolean validEmail = true;
     private boolean validYear = true;
     private boolean validDate = true;
 
     public EditBookingWindow(Booking booking) {
-        this.booking = booking;
         setTitle("Redigera Bokning");
         setSize(400, 300);
         setLayout(new BoxLayout(getContentPane(), BoxLayout.Y_AXIS));
@@ -35,12 +32,13 @@ public class EditBookingWindow extends JFrame {
         panel.setLayout(new BoxLayout(panel, BoxLayout.Y_AXIS));
 
         JButton saveButton = new JButton("Spara ändringar");
+
         ValidatedTextField regNr = new ValidatedTextField(6, RegNr::isValid);
         regNr.setText(booking.getVehicle().getRegNr().getRegNr());
 
-        // Additional text field for repair details in a fixed-size panel
         boolean isRepair = booking instanceof Booking.Repair;
 
+        // Additional text field for repair details in a fixed-size panel
         JPanel repairPanel = new JPanel();
         if (isRepair) {
             JLabel repairLabel = new JLabel("Reparationsdetaljer:");
@@ -55,6 +53,7 @@ public class EditBookingWindow extends JFrame {
 
         JTextField model = new JTextField(20);
         model.setText(booking.getVehicle().getModel());
+
         ValidatedTextField yearModel = new ValidatedTextField(4, text -> {
             if (text.isEmpty()) {
                 return false;
@@ -70,8 +69,10 @@ public class EditBookingWindow extends JFrame {
             }
         });
         yearModel.setText(String.valueOf(booking.getVehicle().getProductionYear()));
+
         ValidatedTextField email = new ValidatedTextField(20, Email::isValid);
         email.setText(booking.getEmail().getEmail());
+
         ValidatedTextField date = new ValidatedTextField(20, text -> {
             try {
                 java.time.LocalDate.parse(text);
@@ -82,6 +83,7 @@ public class EditBookingWindow extends JFrame {
         });
         date.setText(booking.getDate().toString());
 
+        // Callbacks to validate fields and update button state
         regNr.setValidationListener((valid) -> {
             validReg = valid;
             updateButtonState(saveButton);
@@ -118,8 +120,9 @@ public class EditBookingWindow extends JFrame {
             String yearModelString = yearModel.getText();
             String emailString = email.getText();
             String dateString = date.getText();
+
+            // NOTE(Oliver) No need to validate again, as button is disabled if invalid
             var year = Integer.parseInt(yearModelString);
-            // TODO: Assert that date is valid
             var date_ = java.time.LocalDate.parse(dateString);
 
             booking.getVehicle().setRegNr(new RegNr(regString));
@@ -137,7 +140,10 @@ public class EditBookingWindow extends JFrame {
 
             dispose();
         });
+
+        // Add some spacing
         panel.add(Box.createRigidArea(new Dimension(0, 10)));
+
         panel.add(saveButton);
         panel.setBorder(BorderFactory.createEmptyBorder(10, 10, 10, 10));
         getContentPane().add(panel);

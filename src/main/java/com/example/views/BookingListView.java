@@ -41,6 +41,7 @@ public class BookingListView extends JPanel {
         scrollPane.setBorder(null);
         scrollPane.getVerticalScrollBar().setUnitIncrement(16);
         add(scrollPane, BorderLayout.CENTER);
+
         // Add button to add a new booking
         JButton addButton = new JButton("Lägg till bokning");
         addButton.addActionListener(e -> {
@@ -51,17 +52,20 @@ public class BookingListView extends JPanel {
         JPanel buttonPanel = new JPanel();
         buttonPanel.add(addButton);
         add(buttonPanel, BorderLayout.SOUTH);
+
         var sortingOptions = new String[] {
                 "Sortera efter ID",
                 "Sortera efter datum",
         };
         JComboBox<String> sortingComboBox = new JComboBox<>(sortingOptions);
+
         var filterOptions = new String[] {
                 "Inga filter",
                 "Endast pågående",
                 "Endast slutförda",
         };
         JComboBox<String> filterComboBox = new JComboBox<>(filterOptions);
+
         sortingComboBox.addActionListener(e -> {
             int selectedIndex = sortingComboBox.getSelectedIndex();
             switch (selectedIndex) {
@@ -70,7 +74,6 @@ public class BookingListView extends JPanel {
             }
             refreshBookings();
         });
-        buttonPanel.add(sortingComboBox);
         filterComboBox.addActionListener(e -> {
             int selectedIndex = filterComboBox.getSelectedIndex();
             switch (selectedIndex) {
@@ -80,9 +83,14 @@ public class BookingListView extends JPanel {
             }
             refreshBookings();
         });
+
+        buttonPanel.add(sortingComboBox);
         buttonPanel.add(filterComboBox);
     }
 
+    /**
+     * Refresh the list of bookings displayed in the panel.
+     */
     private void refreshBookings() {
         listPanel.removeAll();
 

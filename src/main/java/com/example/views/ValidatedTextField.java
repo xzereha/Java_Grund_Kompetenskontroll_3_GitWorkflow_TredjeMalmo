@@ -15,15 +15,15 @@ public class ValidatedTextField extends JTextField {
 
         this.getDocument().addDocumentListener(new javax.swing.event.DocumentListener() {
             public void insertUpdate(javax.swing.event.DocumentEvent e) {
-                validate();
+                validateTextField();
             }
 
             public void removeUpdate(javax.swing.event.DocumentEvent e) {
-                validate();
+                validateTextField();
             }
 
             public void changedUpdate(javax.swing.event.DocumentEvent e) {
-                validate();
+                validateTextField();
             }
         });
     }
@@ -32,11 +32,7 @@ public class ValidatedTextField extends JTextField {
         this.listener = listener;
     }
 
-    public boolean isValid() {
-        return valid;
-    }
-
-    public void validate() {
+    public void validateTextField() {
         valid = validator.isValid(getText());
         if (valid) {
             setBorder(javax.swing.UIManager.getLookAndFeel().getDefaults().getBorder("TextField.border"));

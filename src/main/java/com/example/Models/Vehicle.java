@@ -5,7 +5,6 @@ public class Vehicle {
     private String model;
     private int productionYear;
 
-    // TODO throw if RegNr is invalid.
     public Vehicle(RegNr regNr, String model, int productionYear) {
         this.regNr = regNr;
         this.model = model;

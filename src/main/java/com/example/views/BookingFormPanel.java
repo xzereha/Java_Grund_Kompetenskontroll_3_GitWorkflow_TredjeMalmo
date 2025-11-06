@@ -69,7 +69,7 @@ public class BookingFormPanel extends JPanel {
 
         repairPanel.add(repairLabel);
         repairPanel.add(repairField);
-        repairPanel.setVisible(false);
+        repairPanel.setVisible(isRepair);
 
         modelField = new JTextField(20);
         modelField.setText(initialModel);
@@ -161,6 +161,14 @@ public class BookingFormPanel extends JPanel {
 
     public String getDate() {
         return dateField.getText();
+    }
+
+    public void setIsRepair(boolean isRepair) {
+        this.isRepair = isRepair;
+    }
+
+    public boolean isRepair() {
+        return isRepair;
     }
 
     public String getRepairDescription() {

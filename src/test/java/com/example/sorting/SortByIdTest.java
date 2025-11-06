@@ -36,7 +36,7 @@ public class SortByIdTest {
 
     @Test
     void whenSortById_thenReturnSortedBookingsById() {
-        SortByID sortByID = new SortByID(1);
+        SortByID sortByID = new SortByID();
 
         List<Booking> sortedBookings = sortByID.apply(bookings);
 

@@ -1,5 +1,6 @@
 package com.example;
 
+import com.example.Exceptions.EmailNotValidException;
 import com.example.Models.Email;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -17,14 +18,19 @@ public class EmailService {
      * @throws IllegalArgumentException if email, subject or body is null
      */
     public void sendEmail(Email email, String subject, String body) {
-        if (email == null) {
-            throw new IllegalArgumentException("Email must not be null");
-        }
-        if (subject == null) {
-            throw new IllegalArgumentException("Subject must not be null");
-        }
-        if (body == null) {
-            throw new IllegalArgumentException("Body must not be null");
+
+        try {
+            if (email == null) {
+                throw new IllegalArgumentException("Email must not be null");
+            }
+            if (subject == null) {
+                throw new IllegalArgumentException("Subject must not be null");
+            }
+            if (body == null) {
+                throw new IllegalArgumentException("Body must not be null");
+            }
+        } catch (NullPointerException e) {
+            throw new IllegalArgumentException(e.getMessage());
         }
 
         logger.info("Email sent to: {}\nSubject: {}\n{}", email.getEmail(), subject, body);

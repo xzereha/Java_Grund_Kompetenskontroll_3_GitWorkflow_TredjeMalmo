@@ -26,12 +26,14 @@ public class BookingFormPanel extends JPanel {
     private String initialDate = "";
     private String initialRepairDescription = "";
 
+    private JPanel repairPanel;
     private ValidatedTextField regField;
     private JTextField modelField;
     private ValidatedTextField yearField;
     private ValidatedTextField emailField;
     private ValidatedTextField dateField;
     private JTextField repairField;
+    private JLabel priceLabel;
 
     public BookingFormPanel() {
         this(null);
@@ -59,7 +61,7 @@ public class BookingFormPanel extends JPanel {
         regField.setText(initialRegNr);
 
         // Additional text field for repair details in a fixed-size panel
-        JPanel repairPanel = new JPanel();
+        repairPanel = new JPanel();
         repairPanel.setLayout(new BoxLayout(repairPanel, BoxLayout.Y_AXIS));
         repairPanel.setMaximumSize(new Dimension(Integer.MAX_VALUE, 50));
 
@@ -117,7 +119,15 @@ public class BookingFormPanel extends JPanel {
             onFormChanged();
         });
 
-        JLabel priceLabel = new JLabel("Pris: Baserad på bokningstyp");
+        priceLabel = new JLabel();
+        setPrice(0);
+
+        createComponents();
+    }
+
+    private void createComponents() {
+        removeAll();
+
         add(new JLabel("Reg.nr:"));
         add(regField);
         add(new JLabel("Modell:"));
@@ -128,11 +138,13 @@ public class BookingFormPanel extends JPanel {
         add(emailField);
         add(new JLabel("Datum:"));
         add(dateField);
+        add(repairPanel);
         add(priceLabel);
 
-        if (isRepair) {
-            add(repairPanel);
-        }
+        repairPanel.setVisible(isRepair);
+
+        revalidate();
+        repaint();
     }
 
     public void setOnChangeListener(Runnable onChange) {
@@ -165,6 +177,7 @@ public class BookingFormPanel extends JPanel {
 
     public void setIsRepair(boolean isRepair) {
         this.isRepair = isRepair;
+        createComponents();
     }
 
     public boolean isRepair() {
@@ -173,6 +186,15 @@ public class BookingFormPanel extends JPanel {
 
     public String getRepairDescription() {
         return repairField.getText();
+    }
+
+    public void setPrice(float price) {
+        if (price <= 0) {
+            priceLabel.setText("Pris: Baserad på bokningstyp");
+            return;
+        }
+        priceLabel.setText("Pris: " + price + " SEK");
+        createComponents();
     }
 
     private void onFormChanged() {

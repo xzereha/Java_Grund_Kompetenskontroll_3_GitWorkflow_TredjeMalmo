@@ -14,10 +14,8 @@ import javax.swing.JTextField;
 
 import com.example.BookingService;
 import com.example.PriceList;
-import com.example.Models.Booking;
 import com.example.Models.Email;
 import com.example.Models.RegNr;
-import com.example.Models.Vehicle;
 
 public class AddBookingView extends JDialog {
     private boolean validReg = false;
@@ -100,9 +98,11 @@ public class AddBookingView extends JDialog {
         panel.add(new JLabel("Datum:"));
         panel.add(date);
         panel.add(priceLabel);
+
         String[] options = { "Besiktning", "Service", "Reparation" };
         JComboBox<String> comboBox = new JComboBox<>(options);
         panel.add(comboBox);
+
         panel.add(repairPanel);
         comboBox.addActionListener(e -> {
             String selected = (String) comboBox.getSelectedItem();
@@ -143,18 +143,18 @@ public class AddBookingView extends JDialog {
             String yearModelString = yearModel.getText();
             String emailString = email.getText();
             String dateString = date.getText();
+            // NOTE(Oliver) No need to validate, button is disabled until all fields are
+            // valid
             var year = Integer.parseInt(yearModelString);
-            // TODO: Assert that date is valid
             var date_ = java.time.LocalDate.parse(dateString);
+
             var bookingType = (String) comboBox.getSelectedItem();
             switch (bookingType) {
                 case "Besiktning":
                     bookingService.bookInspection(regString, modelString, year, emailString, date_);
-
                     break;
                 case "Service":
                     bookingService.bookService(regString, modelString, year, emailString, date_);
-
                     break;
                 case "Reparation":
                     String repairDetails = repairField.getText();

@@ -16,6 +16,7 @@ public class BookingView extends JPanel {
     private static final int PREFERRED_WIDTH = 400;
     private static final int PREFERRED_HEIGHT = 80;
     private static final int EXPANDED_HEIGHT = 200;
+    private static final Color BACKGROUND_COLOR = new Color(245, 245, 245);
 
     private boolean expanded = false;
     private final BookingService bookingService;
@@ -34,10 +35,11 @@ public class BookingView extends JPanel {
         setLayout(new BoxLayout(this, BoxLayout.X_AXIS));
         setBorder(BorderFactory.createLineBorder(Color.BLACK, 1));
         setBorder(BorderFactory.createRaisedSoftBevelBorder());
-        setBackground(new Color(245, 245, 245));
+        setBackground(BACKGROUND_COLOR);
         setMaximumSize(new Dimension(PREFERRED_WIDTH, PREFERRED_HEIGHT));
         setPreferredSize(new Dimension(PREFERRED_WIDTH, PREFERRED_HEIGHT));
         setMinimumSize(new Dimension(PREFERRED_WIDTH, PREFERRED_HEIGHT));
+
         renderCompact();
 
         addMouseListener(new MouseAdapter() {
@@ -99,6 +101,7 @@ public class BookingView extends JPanel {
 
         var controlPanel = new JPanel();
         controlPanel.setLayout(new FlowLayout());
+
         JButton finishButton = new JButton("Avsluta bokning");
         finishButton.addActionListener(e -> {
             if (booking instanceof Booking.Repair) {
@@ -114,7 +117,7 @@ public class BookingView extends JPanel {
                     price = Float.parseFloat(input);
                 } catch (NumberFormatException ex) {
                     JOptionPane.showMessageDialog(this,
-                            "Ogiltigt pris angivet. Försök igen.",
+                            "Ogiltigt pris ;angivet. Försök igen.",
                             "Fel",
                             JOptionPane.ERROR_MESSAGE);
                     return;
@@ -128,6 +131,7 @@ public class BookingView extends JPanel {
             }
         });
         controlPanel.add(finishButton);
+
         JButton editButton = new JButton("Ändra bokning");
         editButton.addActionListener(e -> {
             new EditBookingWindow(booking).setVisible(true);
@@ -136,6 +140,7 @@ public class BookingView extends JPanel {
             }
         });
         controlPanel.add(editButton);
+
         JButton cancelButton = new JButton("Avboka bokning");
         cancelButton.addActionListener(e -> {
             bookingService.removeBooking(booking);
@@ -144,6 +149,7 @@ public class BookingView extends JPanel {
             }
         });
         controlPanel.add(cancelButton);
+
         add(controlPanel);
     }
 

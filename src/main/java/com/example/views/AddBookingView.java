@@ -108,12 +108,10 @@ public class AddBookingView extends JDialog {
             String selected = (String) comboBox.getSelectedItem();
             switch (selected) {
                 case "Besiktning":
-                    // TODO: Read from pricelist
                     priceLabel.setText("Pris: " + PriceList.getInspectionPrice() + " SEK");
                     repairPanel.setVisible(false);
                     break;
                 case "Service":
-                    // TODO: Read from pricelist
                     if (yearModel.getText().length() == 4) {
                         int year = Integer.parseInt(yearModel.getText());
                         priceLabel.setText("Pris: " + PriceList.getServicePrice(year) + " SEK");

@@ -3,6 +3,7 @@ package com.example;
 import com.example.Models.Booking;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
 public class BookingRepository {
@@ -12,16 +13,19 @@ public class BookingRepository {
         return bookingList.add(booking);
     }
 
-
-    //TODO Does it have to take in a copy of the booking object, then find the original in the bookingList and remove it?
     public boolean removeBooking(Booking booking) {
         return bookingList.remove(booking);
     }
 
-
-    //TODO make copy of list to return
+    /**
+     * .
+     * Returns an unmodifiable view of the booking list.
+     * Changes to the original booking list will be reflected in the returned list.
+     * 
+     * @return Unmodifiable list of bookings.
+     */
     public List<Booking> getBookingList() {
-        return bookingList;
+        return Collections.unmodifiableList(bookingList);
     }
 
     public int size() {

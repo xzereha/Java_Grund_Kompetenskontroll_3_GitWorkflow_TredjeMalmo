@@ -11,6 +11,7 @@ public class Menu extends JFrame {
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         add(new BookingListView(bookingService));
 
+        setLocationRelativeTo(null);
         setVisible(true);
     }
 }

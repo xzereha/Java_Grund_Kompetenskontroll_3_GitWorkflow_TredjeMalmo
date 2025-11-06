@@ -5,11 +5,6 @@ import com.example.Models.Booking;
 import java.util.List;
 
 public class SortByID implements Sort {
-    private final long id;
-
-    public SortByID(long id) {
-        this.id = id;
-    }
 
     @Override
     public List<Booking> apply(List<Booking> bookings) {

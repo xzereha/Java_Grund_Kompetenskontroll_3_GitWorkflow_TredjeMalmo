@@ -36,7 +36,7 @@ public class SortByStatusTest {
 
     @Test
     void whenSortByStatus_thenReturnSortedBookingsByStatus() {
-        SortByStatus sortByStatus = new SortByStatus(Booking.Status.PENDING);
+        SortByStatus sortByStatus = new SortByStatus();
 
         List<Booking> sortedBookings = sortByStatus.apply(bookings);
 

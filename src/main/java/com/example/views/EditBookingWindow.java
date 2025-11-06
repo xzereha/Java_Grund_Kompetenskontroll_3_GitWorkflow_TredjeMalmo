@@ -20,6 +20,7 @@ public class EditBookingWindow extends JFrame {
     private boolean validEmail = true;
     private boolean validYear = true;
     private boolean validDate = true;
+    private Runnable onSave = null;
 
     public EditBookingWindow(Booking booking) {
         setTitle("Redigera Bokning");
@@ -138,6 +139,9 @@ public class EditBookingWindow extends JFrame {
                 repairBooking.setDescription(repairDetails);
             }
 
+            if (onSave != null) {
+                onSave.run();
+            }
             dispose();
         });
 
@@ -149,6 +153,11 @@ public class EditBookingWindow extends JFrame {
         getContentPane().add(panel);
         pack();
         setLocationRelativeTo(null);
+    }
+
+    public EditBookingWindow(Booking booking, Runnable onSave) {
+        this(booking);
+        this.onSave = onSave;
     }
 
     private void updateButtonState(JButton button) {

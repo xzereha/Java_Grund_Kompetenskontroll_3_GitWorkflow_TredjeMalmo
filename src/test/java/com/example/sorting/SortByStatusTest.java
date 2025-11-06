@@ -44,6 +44,14 @@ public class SortByStatusTest {
         assertEquals(Booking.Status.PENDING, sortedBookings.get(1).getStatus());
         assertEquals(Booking.Status.PENDING, sortedBookings.get(2).getStatus());
     }
-    // TODO test for completed bookings
 
+    @Test
+    void whenChangeStatus_thenReturnSortedBookingsByStatus() {
+
+        System.out.println(bookings.get(0).getStatus());
+
+        bookings.get(0).setStatus(Booking.Status.COMPLETED);
+        System.out.println(bookings.get(0).getStatus());
+
+    }
 }

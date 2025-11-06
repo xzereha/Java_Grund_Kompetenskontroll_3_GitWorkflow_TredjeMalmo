@@ -1,75 +1,52 @@
 package com.example;
 
-import com.example.Models.Booking;
-import com.example.Models.Email;
-import com.example.Models.RegNr;
-import com.example.Models.Vehicle;
-
 import java.time.LocalDate;
 
 public class InitService {
+    public static void init(BookingService bookingService) {
+        bookingService.bookService("ABC123", "Fiat Panda", 2022, "anna.persson@gmail.com",
+                LocalDate.of(2025, 11, 28));
 
-    public static void init(BookingRepository bookingRepository) {
+        bookingService.bookService("HJA234", "Mercedes GLE", 2000, "lars.karlsson@outlook.com",
+                LocalDate.of(2025, 12, 2));
 
-       // TODO: fix price
-        bookingRepository.addBooking(new Booking.Service
-                (new Vehicle(new RegNr("ABC123"), "FIAT PANDA", 2022), new Email("email@address.se"),
-                        LocalDate.of(2025,11,28),2334));
+        bookingService.bookService("HJB234", "Tesla", 2022, "emma.nilsson@hotmail.se",
+                LocalDate.of(2025, 12, 3));
 
-        bookingRepository.addBooking(new Booking.Inspection
-                (new Vehicle(new RegNr("ABC123"), "MERCEDES SMART", 2000), new Email("email@address.se"),
-                        LocalDate.of(2025,12,2),4567));
+        bookingService.bookService("KJE345", "Toyota Yaris GR", 2022, "johan.eriksson@domain.se",
+                LocalDate.of(2025, 12, 12));
 
-        bookingRepository.addBooking(new Booking.Repair
-                (new Vehicle(new RegNr("ABC123"), "TESLA", 2022), new Email("email@address.se"),
-                        LocalDate.of(2025,12,3),"Doorhandel"));
+        bookingService.bookInspection("KLE234", "Volvo V60", 2022, "maria.svensson@gmail.com",
+                LocalDate.of(2025, 11, 22));
 
-        bookingRepository.addBooking(new Booking.Service
-                (new Vehicle(new RegNr("ABC123"), "TOYOTA IQ", 2022), new Email("email@address.se"),
-                        LocalDate.of(2025,12,12),4567));
+        bookingService.bookRepair("OUT234", "BMW 530d", 2022, "anders.lindberg@domain.se",
+                LocalDate.of(2024, 11, 26), "carFarts");
 
-        bookingRepository.addBooking(new Booking.Inspection
-                (new Vehicle(new RegNr("ABC123"), "Model", 2022), new Email("email@address.se"),
-                        LocalDate.of(2025,11,22),9856));
+        bookingService.bookService("LOL137", "Volvo V70", 2022, "sofia.johansson@hotmail.se",
+                LocalDate.of(2025, 11, 28));
 
-        bookingRepository.addBooking(new Booking.Repair
-                (new Vehicle(new RegNr("ABC123"), "Model", 2022), new Email("email@address.se"),
-                        LocalDate.of(2024,11,26),"carFarts"));
+        bookingService.bookInspection("DAS345", "Koenigsegg Agera", 2022, "henrik.larsson@gmail.com",
+                LocalDate.of(2025, 11, 29));
 
-        bookingRepository.addBooking(new Booking.Service
-                (new Vehicle(new RegNr("ABC123"), "Model", 2022), new Email("email@address.se"),
-                        LocalDate.of(2025,11,28),6678));
+        bookingService.bookRepair("BOO355", "Saab 9-3", 2022, "elin.berg@outlook.com",
+                LocalDate.of(2024, 11, 26), "carFarts");
 
-        bookingRepository.addBooking(new Booking.Inspection
-                (new Vehicle(new RegNr("ABC123"), "Model", 2022), new Email("email@address.se"),
-                        LocalDate.of(2025,11,29),9889));
+        bookingService.bookService("KLD456", "Volvo V60", 2022, "oliver.andersson@domain.se",
+                LocalDate.of(2025, 6, 26));
 
-        bookingRepository.addBooking(new Booking.Repair
-                (new Vehicle(new RegNr("ABC123"), "SCANIA", 2022), new Email("email@address.se"),
-                        LocalDate.of(2024,11,26),"carFarts"));
+        bookingService.bookInspection("LEK567", "Nissan Micra", 2022, "lina.holm@gmail.com",
+                LocalDate.of(2025, 11, 26));
 
-        bookingRepository.addBooking(new Booking.Service
-                (new Vehicle(new RegNr("ABC123"), "VOLVO V60", 2022), new Email("email@address.se"),
-                        LocalDate.of(2025,6,26),6778));
+        bookingService.bookRepair("OST678", "Mercedes E-klass", 2022, "erik.sandberg@hotmail.se",
+                LocalDate.of(2026, 3, 26), "carFarts");
 
-        bookingRepository.addBooking(new Booking.Inspection
-                (new Vehicle(new RegNr("ABC123"), "NISSAN MICRA", 2022), new Email("email@address.se"),
-                        LocalDate.of(2025,11,26),9898));
+        bookingService.bookService("GLO789", "Alpina B10", 2022, "victor.fransson@domain.se",
+                LocalDate.of(2026, 6, 26));
 
-        bookingRepository.addBooking(new Booking.Repair
-                (new Vehicle(new RegNr("ABC123"), "MERCEDES", 2022), new Email("email@address.se"),
-                        LocalDate.of(2026,3,26),"carFarts"));
+        bookingService.bookRepair("FUS890", "Kia EV5", 2022, "sara.lundqvist@gmail.com",
+                LocalDate.of(2025, 8, 26), "carFarts");
 
-        bookingRepository.addBooking(new Booking.Service
-                (new Vehicle(new RegNr("ABC123"), "Model", 2022), new Email("email@address.se"),
-                        LocalDate.of(2026,6,26),9234));
-
-        bookingRepository.addBooking(new Booking.Repair
-                (new Vehicle(new RegNr("ABC123"), "Model", 2022), new Email("email@address.se"),
-                        LocalDate.of(2025,8,26),"carFarts"));
-
-        bookingRepository.addBooking(new Booking.Inspection
-                (new Vehicle(new RegNr("ABC123"), "Model", 2022), new Email("email@address.se"),
-                        LocalDate.of(2026,5,3),9875));
+        bookingService.bookInspection("LUP901", "Audi A4", 2022, "fredrik.nilsson@hotmail.se",
+                LocalDate.of(2026, 5, 3));
     }
 }

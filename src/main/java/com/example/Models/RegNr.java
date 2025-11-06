@@ -6,15 +6,22 @@ import com.example.Exceptions.RegNotValidException;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
+import static com.example.Models.Email.isValid;
+
 public class RegNr {
     private final String value;
 
     public RegNr(String regNr) {
 
         try {
-            isValid(regNr);
+            if (regNr == null || !isValid(regNr)){
+                throw new RegNotValidException("Invalid Reg nummer");
+            }
             this.value = regNr;
         } catch (RegNotValidException e) {
+            throw e ;
+        }
+        catch (Exception e) {
             throw new RegNotValidException("Invalid Reg nummer");
         }
     }

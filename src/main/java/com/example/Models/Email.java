@@ -1,9 +1,12 @@
 package com.example.Models;
 
 import com.example.Exceptions.EmailNotValidException;
+import com.example.Exceptions.RegNotValidException;
 
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
+
+import static com.example.Models.RegNr.isValid;
 
 public class Email {
     private final String value;
@@ -24,10 +27,14 @@ public class Email {
      */
     public Email(String email) {
         try {
-            isValid(email);
+            if (email == null || !isValid(email)) {
+                throw new EmailNotValidException("Invalid email!");
+            }
             this.value = email;
         } catch (EmailNotValidException e) {
-            throw new EmailNotValidException("Invalid email");
+            throw e;
+        } catch (Exception e) {
+            throw new EmailNotValidException("Invalid email!");
         }
     }
     public String getEmail() {

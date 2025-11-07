@@ -2,8 +2,6 @@
 
 This repository contains a small Swing-based Java application used for a programming assignment in a Java course. The application models a simple mechanic booking system where users can create, edit, list and manage vehicle service bookings.
 
-This README describes how to build, run and test the project, plus a few development notes and pointers to important files.
-
 ## Quick facts
 
 - Language: Java 21

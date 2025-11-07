@@ -130,6 +130,11 @@ public class BookingView extends JPanel {
             }
         });
         controlPanel.add(finishButton);
+        if (booking.getStatus() == Booking.Status.PENDING) {
+            finishButton.setEnabled(true);
+        } else {
+            finishButton.setEnabled(false);
+        }
 
         JButton editButton = new JButton("Ändra bokning");
         editButton.addActionListener(e -> {

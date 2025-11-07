@@ -76,8 +76,7 @@ public class BookingView extends JPanel {
         add(Box.createRigidArea(new Dimension(20, 0)));
         add(new JLabel("Datum: " + booking.getDate().toString()));
         add(Box.createRigidArea(new Dimension(20, 0)));
-        add(new JLabel("Status : " + booking.getStatus()));
-        add(Box.createHorizontalGlue());
+        add(createStatusLabel(booking));
     }
 
     private void renderExpanded() {
@@ -93,7 +92,7 @@ public class BookingView extends JPanel {
         dataPanel.add(new JLabel("Email: " + booking.getEmail().getEmail()));
         drawVehicleInfo(dataPanel);
         dataPanel.add(new JLabel("Pris: " + booking.getPrice()));
-        dataPanel.add(new JLabel("Status: " + booking.getStatus()));
+        dataPanel.add(createStatusLabel(booking));
         if (booking instanceof Booking.Repair repair) {
             dataPanel.add(new JLabel("Reparationsdetaljer: " + repair.getDescription()));
         }
@@ -152,6 +151,30 @@ public class BookingView extends JPanel {
         controlPanel.add(cancelButton);
 
         add(controlPanel);
+    }
+
+    private JLabel createStatusLabel(Booking booking) {
+        String statusText;
+        String statusColor;
+
+        switch (booking.getStatus()) {
+            case PENDING -> {
+                statusText = "Pågående";
+                statusColor = "green";
+            }
+            case COMPLETED -> {
+                statusText = "Avslutad";
+                statusColor = "red";
+            }
+            default -> {
+                statusText = "Okänd";
+                statusColor = "gray";
+            }
+        }
+
+        JLabel statusLabel = new JLabel(
+                "<html>Status: <font color='" + statusColor + "'>" + statusText + "</font></html>");
+        return statusLabel;
     }
 
     private void drawTypeInfo(JPanel panel) {

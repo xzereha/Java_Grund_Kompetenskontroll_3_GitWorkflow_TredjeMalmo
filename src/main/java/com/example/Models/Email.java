@@ -1,5 +1,7 @@
 package com.example.Models;
 
+import com.example.Exceptions.EmailNotValidException;
+
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -22,7 +24,7 @@ public class Email {
      */
     public Email(String email) {
         if (!isValid(email)) {
-            throw new IllegalArgumentException("Invalid email");
+            throw new EmailNotValidException("Invalid email");
         }
         this.value = email;
     }

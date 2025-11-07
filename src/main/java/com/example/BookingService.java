@@ -1,5 +1,7 @@
 package com.example;
 
+import com.example.Exceptions.EmailNotValidException;
+import com.example.Exceptions.RegNotValidException;
 import com.example.Models.Booking;
 import com.example.Models.Email;
 import com.example.Models.RegNr;
@@ -22,36 +24,61 @@ public class BookingService {
     }
 
     public boolean bookInspection(String regNr, String vehicleModel, int yearModel, String email, LocalDate date) {
-        var regNr_ = new RegNr(regNr); // NOTE can throw
-        var email_ = new Email(email); // NOTE can throw
-        var vehicle = new Vehicle(regNr_, vehicleModel, yearModel);
-        var price_ = priceList.getInspectionPrice();
-        var booking = new Booking.Inspection(vehicle, email_, date, price_);
+        try {
+            var regNr_ = new RegNr(regNr);
+            var email_ = new Email(email);
+            var vehicle = new Vehicle(regNr_, vehicleModel, yearModel);
+            var price_ = priceList.getInspectionPrice();
+            var booking = new Booking.Inspection(vehicle, email_, date, price_);
 
-        logger.info("Booked an inspection for {} on {}", regNr, date);
-        return registerBooking(booking);
+            logger.info("Booked an inspection for {} on {}", regNr, date);
+            return registerBooking(booking);
+        } catch (RegNotValidException e) {
+            logger.error("Tried booking an inspection with invalid regNr: {}", regNr);
+            return false;
+        } catch (EmailNotValidException e) {
+            logger.error("Tried booking an inspection with invalid email: {}", email);
+            return false;
+        }
     }
 
     public boolean bookService(String regNr, String vehicleModel, int yearModel, String email, LocalDate date) {
-        var regNr_ = new RegNr(regNr); // NOTE can throw
-        var email_ = new Email(email); // NOTE can throw
-        var vehicle = new Vehicle(regNr_, vehicleModel, yearModel);
-        var price_ = priceList.getServicePrice(yearModel);
-        var booking = new Booking.Service(vehicle, email_, date, price_);
+        try {
+            var regNr_ = new RegNr(regNr);
+            var email_ = new Email(email);
+            var vehicle = new Vehicle(regNr_, vehicleModel, yearModel);
+            var price_ = priceList.getServicePrice(yearModel);
+            var booking = new Booking.Service(vehicle, email_, date, price_);
 
-        logger.info("Booked a service for {} on {}", regNr, date);
-        return registerBooking(booking);
+            logger.info("Booked a service for {} on {}", regNr, date);
+            return registerBooking(booking);
+
+        } catch (RegNotValidException e) {
+            logger.error("Tried booking service with invalid regNr: {}", regNr);
+            return false;
+        } catch (EmailNotValidException e) {
+            logger.error("Tried booking service with invalid email: {}", email);
+            return false;
+        }
     }
 
     public boolean bookRepair(String regNr, String vehicleModel, int yearModel, String email, LocalDate date,
-            String repairDescription) {
-        var regNr_ = new RegNr(regNr); // NOTE can throw
-        var email_ = new Email(email); // NOTE can throw
-        var vehicle = new Vehicle(regNr_, vehicleModel, yearModel);
-        var booking = new Booking.Repair(vehicle, email_, date, repairDescription);
+                              String repairDescription) {
+        try {
+            var regNr_ = new RegNr(regNr);
+            var email_ = new Email(email);
+            var vehicle = new Vehicle(regNr_, vehicleModel, yearModel);
+            var booking = new Booking.Repair(vehicle, email_, date, repairDescription);
 
-        logger.info("Booked a repair for {} on {}", regNr, date);
-        return registerBooking(booking);
+            logger.info("Booked a repair for {} on {}", regNr, date);
+            return registerBooking(booking);
+        } catch (RegNotValidException e) {
+            logger.error("Tried booking a repair with invalid regNr: {}", regNr);
+            return false;
+        } catch (EmailNotValidException e) {
+            logger.error("Tried booking a repair with invalid email: {}", email);
+            return false;
+        }
     }
 
     private boolean registerBooking(Booking booking) {
@@ -88,7 +115,7 @@ public class BookingService {
     /**
      * If the booking is a repair it needs a price to be set before it can be
      * completed.
-     * 
+     *
      * @param booking
      */
     public void changeBookingStatusToComplete(Booking booking) {

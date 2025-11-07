@@ -57,7 +57,7 @@ public class BookingFormPanel extends JPanel {
     private void initializeComponents() {
         setLayout(new BoxLayout(this, BoxLayout.Y_AXIS));
 
-        regField = new ValidatedTextField(6, RegNr::isValid);
+        regField = new ValidatedTextField("ABC123", 6, RegNr::isValid);
         regField.setText(initialRegNr);
 
         // Additional text field for repair details in a fixed-size panel
@@ -75,7 +75,7 @@ public class BookingFormPanel extends JPanel {
 
         modelField = new JTextField(20);
         modelField.setText(initialModel);
-        yearField = new ValidatedTextField(4, text -> {
+        yearField = new ValidatedTextField("2000", 4, text -> {
             if (text.isEmpty()) {
                 return false;
             }
@@ -90,9 +90,9 @@ public class BookingFormPanel extends JPanel {
             }
         });
         yearField.setText(initialYearModel);
-        emailField = new ValidatedTextField(20, Email::isValid);
+        emailField = new ValidatedTextField("email@example.com", 20, Email::isValid);
         emailField.setText(initialEmail);
-        dateField = new ValidatedTextField(20, text -> {
+        dateField = new ValidatedTextField("2000-12-31", 20, text -> {
             try {
                 java.time.LocalDate.parse(text);
                 return true;
@@ -127,7 +127,6 @@ public class BookingFormPanel extends JPanel {
 
     private void createComponents() {
         removeAll();
-
         add(new JLabel("Reg.nr:"));
         add(regField);
         add(new JLabel("Modell:"));

@@ -10,7 +10,7 @@ public class RegNr {
 
     public RegNr(String regNr) {
         if (regNr == null || !isValid(regNr)) {
-             throw new RegNotValidException("Invalid regNr");
+            throw new RegNotValidException("Invalid regNr");
         }
         this.value = regNr;
     }

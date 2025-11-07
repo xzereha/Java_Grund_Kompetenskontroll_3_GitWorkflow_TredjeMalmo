@@ -5,6 +5,9 @@ public class ValidatedTextField extends PlaceholderTextField {
     private ITextValidation validator;
     private ValidationListener listener;
 
+    public ValidatedTextField(int columns, ITextValidation validator) {
+        this("", columns, validator);
+    }
     public ValidatedTextField(String placeholder, int columns, ITextValidation validator) {
         super(placeholder, columns);
         this.valid = false;

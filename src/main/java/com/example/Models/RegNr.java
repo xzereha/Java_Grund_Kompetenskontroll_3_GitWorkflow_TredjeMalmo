@@ -1,5 +1,7 @@
 package com.example.Models;
 
+import com.example.Exceptions.RegNotValidException;
+
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -7,8 +9,8 @@ public class RegNr {
     private final String value;
 
     public RegNr(String regNr) {
-        if (!isValid(regNr)) {
-             throw new IllegalArgumentException("Invalid regNr");
+        if (regNr == null || !isValid(regNr)) {
+             throw new RegNotValidException("Invalid regNr");
         }
         this.value = regNr;
     }

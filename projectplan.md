@@ -17,7 +17,7 @@
   - ✅ Avsluta bokning
     - ✅ Sätt pris
   - ✅ Skicka Mail
-
+- ✅ LogBack.xml av viktiga händelser
 
 ## Dependencies
 - BokningsService

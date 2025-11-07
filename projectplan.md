@@ -36,5 +36,3 @@
   - BokningsService
   - Sortering
   - AvklaradService
-
-## Run

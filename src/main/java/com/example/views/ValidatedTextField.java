@@ -1,14 +1,12 @@
 package com.example.views;
 
-import javax.swing.JTextField;
-
-public class ValidatedTextField extends JTextField {
+public class ValidatedTextField extends PlaceholderTextField {
     private boolean valid;
     private ITextValidation validator;
     private ValidationListener listener;
 
-    public ValidatedTextField(int columns, ITextValidation validator) {
-        super(columns);
+    public ValidatedTextField(String placeholder, int columns, ITextValidation validator) {
+        super(placeholder, columns);
         this.valid = false;
         this.validator = validator;
         this.listener = null;

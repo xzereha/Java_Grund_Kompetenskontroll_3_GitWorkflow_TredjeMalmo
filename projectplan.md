@@ -35,4 +35,6 @@
 - Meny
   - BokningsService
   - Sortering
-  - AvklaradService 
+  - AvklaradService
+
+## Run

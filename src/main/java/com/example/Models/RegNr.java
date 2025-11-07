@@ -10,7 +10,7 @@ public class RegNr {
         if (!isValid(regNr)) {
              throw new IllegalArgumentException("Invalid regNr");
         }
-        this.value = regNr;
+        this.value = regNr.toUpperCase();
     }
 
     public String getRegNr() {
@@ -19,7 +19,7 @@ public class RegNr {
 
     public static boolean isValid(String regNr) {
         Pattern pattern = Pattern.compile("^[A-HJ-PR-UW-Z]{3}\\d{2}[A-HJ-PR-UW-Z0-9]$");
-        Matcher matcher = pattern.matcher(regNr);
+        Matcher matcher = pattern.matcher(regNr.toUpperCase());
         return matcher.matches();
     }
 }

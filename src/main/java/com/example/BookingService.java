@@ -65,8 +65,8 @@ public class BookingService {
     public boolean bookRepair(String regNr, String vehicleModel, int yearModel, String email, LocalDate date,
                               String repairDescription) {
         try {
-            var regNr_ = new RegNr(regNr); // NOTE can throw
-            var email_ = new Email(email); // NOTE can throw
+            var regNr_ = new RegNr(regNr);
+            var email_ = new Email(email);
             var vehicle = new Vehicle(regNr_, vehicleModel, yearModel);
             var booking = new Booking.Repair(vehicle, email_, date, repairDescription);
 

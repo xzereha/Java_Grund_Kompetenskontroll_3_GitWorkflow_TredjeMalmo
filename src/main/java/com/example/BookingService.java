@@ -44,8 +44,8 @@ public class BookingService {
 
     public boolean bookService(String regNr, String vehicleModel, int yearModel, String email, LocalDate date) {
         try {
-            var regNr_ = new RegNr(regNr); // NOTE can throw
-            var email_ = new Email(email); // NOTE can throw
+            var regNr_ = new RegNr(regNr);
+            var email_ = new Email(email);
             var vehicle = new Vehicle(regNr_, vehicleModel, yearModel);
             var price_ = priceList.getServicePrice(yearModel);
             var booking = new Booking.Service(vehicle, email_, date, price_);

@@ -1,22 +1,22 @@
 # Plan
 
 - ✅ BokningsRepository
-- ✅ Prislista (Mimmi)
+- ✅ Prislista | Mimmi
 - ✅ BokningsService 
-  - Skapa Bokning  - Skapa Bokning, Pontus, Tilda - bygger komponent i Test
-    - Skicka mail
-  - Redigera Bokning- Pontus, Tilda - bygger komponent i Test
-  - Ta bort Bokning- Pontus, Tilda - bygger komponent i Test
-  - Visa Bokningar- Pontus, Tilda - bygger komponent i Test
-  - Visa bokningsdetaljer- Pontus, Tilda - bygger komponent i Test
-- Meny | in progress |  Oliver
+  - ✅ Skapa Bokning | Pontus, Tilda bygger komponent i Test
+    - ✅ Skicka mail
+  - ✅ Redigera Bokning | Pontus, Tilda bygger komponent i Test
+  - ✅ Ta bort Bokning | Pontus, Tilda bygger komponent i Test
+  - ✅ Visa Bokningar | Pontus, Tilda bygger komponent i Test
+  - ✅ Visa bokningsdetaljer | Pontus, Tilda bygger komponent i Test
+- ✅ Meny | Oliver
 - ✅ Sortering | Mario & Vera
-- ✅ Init (skapa bokningar vid start) (Mimmi)
-- ✅ MailService (Mimmi)
-- AvklaradService 
-  - Avsluta bokning
-    - Sätt pris
-  - Skicka Mail
+- ✅ Init | (skapa bokningar vid start) Mimmi
+- ✅ MailService | Mimmi
+- ✅ AvklaradService 
+  - ✅ Avsluta bokning
+    - ✅ Sätt pris
+  - ✅ Skicka Mail
 
 
 ## Dependencies

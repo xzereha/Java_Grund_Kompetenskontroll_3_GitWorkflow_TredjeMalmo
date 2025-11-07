@@ -14,14 +14,12 @@ import javax.swing.JTextField;
 
 import com.example.BookingService;
 import com.example.PriceList;
+import com.example.Models.Booking;
 import com.example.Models.Email;
 import com.example.Models.RegNr;
 
 public class AddBookingView extends JDialog {
-    private boolean validReg = false;
-    private boolean validEmail = false;
-    private boolean validYear = false;
-    private boolean validDate = false;
+    private BookingFormPanel formPanel;
 
     public AddBookingView(BookingService bookingService) {
         setTitle("Ny bokning");
@@ -32,101 +30,38 @@ public class AddBookingView extends JDialog {
         panel.setLayout(new BoxLayout(panel, BoxLayout.Y_AXIS));
 
         JButton addBookingBtn = new JButton("Add");
-        ValidatedTextField regNr = new ValidatedTextField(6, RegNr::isValid);
 
-        // Additional text field for repair details in a fixed-size panel
-        JPanel repairPanel = new JPanel();
-        repairPanel.setLayout(new BoxLayout(repairPanel, BoxLayout.Y_AXIS));
-        repairPanel.setMaximumSize(new Dimension(Integer.MAX_VALUE, 50));
-        JLabel repairLabel = new JLabel("Reparationsdetaljer:");
-        JTextField repairField = new JTextField(20);
-        repairPanel.add(repairLabel);
-        repairPanel.add(repairField);
-        repairPanel.setVisible(false);
-
-        JTextField model = new JTextField(20);
-        ValidatedTextField yearModel = new ValidatedTextField(4, text -> {
-            if (text.isEmpty()) {
-                return false;
-            }
-            if (text.length() != 4) {
-                return false;
-            }
-            try {
-                Integer.parseInt(text);
-                return true;
-            } catch (NumberFormatException ex) {
-                return false;
-            }
-        });
-        ValidatedTextField email = new ValidatedTextField(20, Email::isValid);
-        ValidatedTextField date = new ValidatedTextField(20, text -> {
-            try {
-                java.time.LocalDate.parse(text);
-                return true;
-            } catch (Exception ex) {
-                return false;
-            }
-        });
-
-        regNr.setValidationListener((valid) -> {
-            validReg = valid;
-            updateButtonState(addBookingBtn);
-        });
-        yearModel.setValidationListener((valid) -> {
-            validYear = valid;
-            updateButtonState(addBookingBtn);
-        });
-        email.setValidationListener((valid) -> {
-            validEmail = valid;
-            updateButtonState(addBookingBtn);
-        });
-        date.setValidationListener((valid) -> {
-            validDate = valid;
-            updateButtonState(addBookingBtn);
-        });
-
-        JLabel priceLabel = new JLabel("Pris: Baserad på bokningstyp");
-        panel.add(new JLabel("Reg.nr:"));
-        panel.add(regNr);
-        panel.add(new JLabel("Modell:"));
-        panel.add(model);
-        panel.add(new JLabel("Årsmodell:"));
-        panel.add(yearModel);
-        panel.add(new JLabel("Email:"));
-        panel.add(email);
-        panel.add(new JLabel("Datum:"));
-        panel.add(date);
-        panel.add(priceLabel);
+        formPanel = new BookingFormPanel();
+        formPanel.setOnChangeListener(() -> updateButtonState(addBookingBtn));
+        panel.add(formPanel);
 
         String[] options = { "Besiktning", "Service", "Reparation" };
         JComboBox<String> comboBox = new JComboBox<>(options);
         panel.add(comboBox);
 
-        panel.add(repairPanel);
         comboBox.addActionListener(e -> {
             String selected = (String) comboBox.getSelectedItem();
             switch (selected) {
                 case "Besiktning":
-                    priceLabel.setText("Pris: " + PriceList.getInspectionPrice() + " SEK");
-                    repairPanel.setVisible(false);
+                    formPanel.setPrice(PriceList.getInspectionPrice());
+                    formPanel.setIsRepair(false);
                     break;
                 case "Service":
-                    if (yearModel.getText().length() == 4) {
-                        int year = Integer.parseInt(yearModel.getText());
-                        priceLabel.setText("Pris: " + PriceList.getServicePrice(year) + " SEK");
+                    if (formPanel.getYearModel().length() == 4) {
+                        int year = Integer.parseInt(formPanel.getYearModel());
+                        formPanel.setPrice(PriceList.getServicePrice(year));
                     } else {
-                        priceLabel.setText("Pris: Beror på årsmodell");
+                        formPanel.setPrice(0); // Reset price if year model is invalid
                     }
-                    repairPanel.setVisible(false);
+                    formPanel.setIsRepair(false);
                     break;
                 case "Reparation":
-                    priceLabel.setText("Pris: Baserad på reparationens omfattning");
-                    repairPanel.setVisible(true);
+                    formPanel.setPrice(0); // Reset price for repairs
+                    formPanel.setIsRepair(true);
                     break;
                 default:
-                    priceLabel.setText("Pris: Baserad på bokningstyp");
-                    repairPanel.setVisible(false);
+                    formPanel.setPrice(0);
+                    formPanel.setIsRepair(false);
                     break;
             }
             pack();
@@ -136,11 +71,11 @@ public class AddBookingView extends JDialog {
 
         addBookingBtn.setEnabled(false);
         addBookingBtn.addActionListener(ev -> {
-            String regString = regNr.getText();
-            String modelString = model.getText();
-            String yearModelString = yearModel.getText();
-            String emailString = email.getText();
-            String dateString = date.getText();
+            String regString = formPanel.getRegNr();
+            String modelString = formPanel.getModel();
+            String yearModelString = formPanel.getYearModel();
+            String emailString = formPanel.getEmail();
+            String dateString = formPanel.getDate();
             // NOTE(Oliver) No need to validate, button is disabled until all fields are
             // valid
             var year = Integer.parseInt(yearModelString);
@@ -155,7 +90,7 @@ public class AddBookingView extends JDialog {
                     bookingService.bookService(regString, modelString, year, emailString, date_);
                     break;
                 case "Reparation":
-                    String repairDetails = repairField.getText();
+                    String repairDetails = formPanel.getRepairDescription();
                     bookingService.bookRepair(regString, modelString, year, emailString, date_, repairDetails);
                     break;
                 default:
@@ -172,6 +107,6 @@ public class AddBookingView extends JDialog {
     }
 
     private void updateButtonState(JButton button) {
-        button.setEnabled(validReg && validEmail && validYear && validDate);
+        button.setEnabled(formPanel.isFormValid());
     }
 }

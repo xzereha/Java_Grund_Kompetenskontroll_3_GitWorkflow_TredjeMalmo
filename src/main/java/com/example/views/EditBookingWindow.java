@@ -7,19 +7,14 @@ import javax.swing.Box;
 import javax.swing.BoxLayout;
 import javax.swing.JButton;
 import javax.swing.JFrame;
-import javax.swing.JLabel;
 import javax.swing.JPanel;
-import javax.swing.JTextField;
 
 import com.example.Models.Booking;
 import com.example.Models.Email;
 import com.example.Models.RegNr;
 
 public class EditBookingWindow extends JFrame {
-    private boolean validReg = true;
-    private boolean validEmail = true;
-    private boolean validYear = true;
-    private boolean validDate = true;
+    private final BookingFormPanel formPanel;
     private Runnable onSave = null;
 
     public EditBookingWindow(Booking booking) {
@@ -34,93 +29,16 @@ public class EditBookingWindow extends JFrame {
 
         JButton saveButton = new JButton("Spara ändringar");
 
-        ValidatedTextField regNr = new ValidatedTextField(6, RegNr::isValid);
-        regNr.setText(booking.getVehicle().getRegNr().getRegNr());
-
-        boolean isRepair = booking instanceof Booking.Repair;
-
-        // Additional text field for repair details in a fixed-size panel
-        JPanel repairPanel = new JPanel();
-        if (isRepair) {
-            JLabel repairLabel = new JLabel("Reparationsdetaljer:");
-            repairPanel.add(repairLabel);
-
-            Booking.Repair repairBooking = (Booking.Repair) booking;
-            JTextField repairField = new JTextField(20);
-            repairField.setText(repairBooking.getDescription());
-            repairPanel.add(repairField);
-            repairPanel.setVisible(true);
-        }
-
-        JTextField model = new JTextField(20);
-        model.setText(booking.getVehicle().getModel());
-
-        ValidatedTextField yearModel = new ValidatedTextField(4, text -> {
-            if (text.isEmpty()) {
-                return false;
-            }
-            if (text.length() != 4) {
-                return false;
-            }
-            try {
-                Integer.parseInt(text);
-                return true;
-            } catch (NumberFormatException ex) {
-                return false;
-            }
-        });
-        yearModel.setText(String.valueOf(booking.getVehicle().getProductionYear()));
-
-        ValidatedTextField email = new ValidatedTextField(20, Email::isValid);
-        email.setText(booking.getEmail().getEmail());
-
-        ValidatedTextField date = new ValidatedTextField(20, text -> {
-            try {
-                java.time.LocalDate.parse(text);
-                return true;
-            } catch (Exception ex) {
-                return false;
-            }
-        });
-        date.setText(booking.getDate().toString());
-
-        // Callbacks to validate fields and update button state
-        regNr.setValidationListener((valid) -> {
-            validReg = valid;
-            updateButtonState(saveButton);
-        });
-        yearModel.setValidationListener((valid) -> {
-            validYear = valid;
-            updateButtonState(saveButton);
-        });
-        email.setValidationListener((valid) -> {
-            validEmail = valid;
-            updateButtonState(saveButton);
-        });
-        date.setValidationListener((valid) -> {
-            validDate = valid;
-            updateButtonState(saveButton);
-        });
-
-        panel.add(new JLabel("Reg.nr:"));
-        panel.add(regNr);
-        panel.add(new JLabel("Modell:"));
-        panel.add(model);
-        panel.add(new JLabel("Årsmodell:"));
-        panel.add(yearModel);
-        panel.add(new JLabel("Email:"));
-        panel.add(email);
-        panel.add(new JLabel("Datum:"));
-        panel.add(date);
-        panel.add(repairPanel);
+        formPanel = new BookingFormPanel(booking);
+        panel.add(formPanel);
 
         saveButton.setEnabled(true);
         saveButton.addActionListener(ev -> {
-            String regString = regNr.getText();
-            String modelString = model.getText();
-            String yearModelString = yearModel.getText();
-            String emailString = email.getText();
-            String dateString = date.getText();
+            String regString = formPanel.getRegNr();
+            String modelString = formPanel.getModel();
+            String yearModelString = formPanel.getYearModel();
+            String emailString = formPanel.getEmail();
+            String dateString = formPanel.getDate();
 
             // NOTE(Oliver) No need to validate again, as button is disabled if invalid
             var year = Integer.parseInt(yearModelString);
@@ -132,10 +50,9 @@ public class EditBookingWindow extends JFrame {
             booking.setEmail(new Email(emailString));
             booking.setDate(date_);
 
-            if (isRepair) {
+            if (formPanel.isRepair()) {
                 Booking.Repair repairBooking = (Booking.Repair) booking;
-                JTextField repairField = (JTextField) repairPanel.getComponent(1);
-                String repairDetails = repairField.getText();
+                String repairDetails = formPanel.getRepairDescription();
                 repairBooking.setDescription(repairDetails);
             }
 
@@ -161,6 +78,6 @@ public class EditBookingWindow extends JFrame {
     }
 
     private void updateButtonState(JButton button) {
-        button.setEnabled(validReg && validEmail && validYear && validDate);
+        button.setEnabled(formPanel.isFormValid());
     }
 }
